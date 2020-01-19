@@ -173,7 +173,9 @@ uses
   MultiDetailAppearanceU, System.ImageList, FMX.ImgList, DateUtils,
   FMX.DateTimeCtrls, System.UIConsts, FMX.VirtualKeyboard, FMX.Platform,
   FGX.ActionSheet, System.IOUtils, System.StrUtils, FMX.ComboEdit,
-  FMX.ComboTrackBar, FMX.Ani
+  FMX.ComboTrackBar, FMX.Ani, FMX.Effects, FMX.Filter.Effects,uDatamodule
+
+
 
 {$IFDEF ANDROID}
     , FMX.Helpers.Android, FMX.Platform.Android
@@ -182,13 +184,12 @@ uses
 
 type
   TfrmPrincipal = class(TForm)
-    tabcPrincipal: TTabControl;
-    tabiLogin: TTabItem;
-    tabiHome: TTabItem;
+    tabcPrinc: TTabControl;
+    tabPrinc_Login: TTabItem;
+    tabPrinc_Home: TTabItem;
     RectLogin: TRectangle;
     ImgLoginLogo: TImage;
     Layout1: TLayout;
-    EdtLoginLogin: TEdit;
     EdtLoginSenha: TEdit;
     StyleBook1: TStyleBook;
     MultiView: TMultiView;
@@ -199,7 +200,7 @@ type
     ListBoxLancamento: TListBoxItem;
     ListBoxCategoria: TListBoxItem;
     ListBoxPerfil: TListBoxItem;
-    tabiLancamento: TTabItem;
+    tabPrinc_Lancamento: TTabItem;
     RectLancFiltro: TRectangle;
     lblData: TLabel;
     BtnLancamentoVoltaMes: TSpeedButton;
@@ -211,12 +212,12 @@ type
     Layout8: TLayout;
     lblTotalDespesa: TLabel;
     Label12: TLabel;
-    tabiCategoria: TTabItem;
+    tabPrinc_Categoria: TTabItem;
     ToolBar3: TToolBar;
     Label13: TLabel;
     BtnCategoriaVolta: TSpeedButton;
     BtnCategoriaAdd: TSpeedButton;
-    tabiCadCategoria: TTabItem;
+    tabPrinc_CadCategoria: TTabItem;
     ToolBar4: TToolBar;
     Label14: TLabel;
     BtnCadCategoriaVolta: TSpeedButton;
@@ -226,7 +227,7 @@ type
     LstLancamento: TListView;
     ListCategoria: TListView;
     BtnCadCategoriaExclui: TSpeedButton;
-    TabiPerfil: TTabItem;
+    TabPrinc_Perfil: TTabItem;
     ToolBar5: TToolBar;
     BtnPerfilVolta: TSpeedButton;
     Rectangle7: TRectangle;
@@ -235,7 +236,7 @@ type
     ListBox2: TListBox;
     ListBoxItem1: TListBoxItem;
     ListBoxItem3: TListBoxItem;
-    tabIdiona: TTabItem;
+    tabPrinc_Idiona: TTabItem;
     ToolBar6: TToolBar;
     Label18: TLabel;
     BtnConfigVolta: TSpeedButton;
@@ -247,10 +248,9 @@ type
     ListBoxItem5: TListBoxItem;
     ListBoxItem6: TListBoxItem;
     lblLoginCriaNovaConta: TLabel;
-    RectCadLogin: TRectangle;
     Layout9: TLayout;
     EdtCadLoginNone: TEdit;
-    edtCadSenha: TEdit;
+    edtCadLoginSenha: TEdit;
     edtCadLoginConfiSenha: TEdit;
     ToolBar10: TToolBar;
     Label23: TLabel;
@@ -261,11 +261,8 @@ type
     TimFechaInformacao: TTimer;
     rectBtnCadUsuario: TRectangle;
     Layout10: TLayout;
-    ToolBar1: TToolBar;
     BtnHomeMenu: TSpeedButton;
     Rectangle1: TRectangle;
-    Rectangle2: TRectangle;
-    RectHomeSaldoGeral: TRectangle;
     RectHome1: TRectangle;
     ToolBar11: TToolBar;
     Rectangle11: TRectangle;
@@ -288,7 +285,6 @@ type
     lblNomeDoUsuario: TLabel;
     Label1: TLabel;
     lblSaldoAtual: TLabel;
-    Line1: TLine;
     Line2: TLine;
     Label3: TLabel;
     Label4: TLabel;
@@ -302,9 +298,7 @@ type
     Line3: TLine;
     BtnLancamentoAdd: TSpeedButton;
     fgActNovoLanca: TfgActionSheet;
-    Label26: TLabel;
-    Layout5: TLayout;
-    TabiCadLancamento: TTabItem;
+    TabPrinc_CadLancamento: TTabItem;
     LayLancFiltro: TLayout;
     Layout23: TLayout;
     Label24: TLabel;
@@ -346,9 +340,9 @@ type
     Rectangle12: TRectangle;
     SpeedButton1: TSpeedButton;
     btnExcluirLancamento: TSpeedButton;
-    tabCadLancamento: TTabControl;
-    TABI_00: TTabItem;
-    tabi_DescricaoCadLanc: TTabItem;
+    tabcCadLanc: TTabControl;
+    tabCadLanc_Hone: TTabItem;
+    tabCadLanc_Descricao: TTabItem;
     lstCadLancamento: TListView;
     Rectangle18: TRectangle;
     lblDescricao: TLabel;
@@ -357,14 +351,14 @@ type
     Rectangle20: TRectangle;
     Layout16: TLayout;
     actTabPrincipal: TActionList;
-    actCadLancamento: TChangeTabAction;
-    actHome: TChangeTabAction;
-    actLogin: TChangeTabAction;
-    tabi_ValorCadLanc: TTabItem;
-    tabi_DataCadLanc: TTabItem;
-    tabi_nroParcCadLanc: TTabItem;
-    tabi_QuitadaCadLanac: TTabItem;
-    tabi_CategoriaCadLanc: TTabItem;
+    actPrinc_CadLancamento: TChangeTabAction;
+    actPrinc_Home: TChangeTabAction;
+    actPrinc_Login: TChangeTabAction;
+    tabCadLanc_Valor: TTabItem;
+    tabCadLanc_Data: TTabItem;
+    tabCadLanc_nroParce: TTabItem;
+    tabCadLanc_Quitada: TTabItem;
+    tabCadLanc_Categoria: TTabItem;
     edtValorCadLanc: TEdit;
     Layout17: TLayout;
     Rectangle9: TRectangle;
@@ -389,7 +383,7 @@ type
     ctbNroPracela: TComboTrackBar;
     cboxQuitada: TComboBox;
     cboxCategriaCadLanc: TComboBox;
-    actTabCadLancamento: TActionList;
+    actTabCadLanc: TActionList;
     actTabi00: TChangeTabAction;
     actTabiDescricao: TChangeTabAction;
     actTabiValor: TChangeTabAction;
@@ -413,18 +407,18 @@ type
     edtDataCadLancamernto: TDateEdit;
     Layout29: TLayout;
     SpeedButton10: TSpeedButton;
-    actCadCategoria: TChangeTabAction;
-    actCategoria: TChangeTabAction;
+    actPrinc_CadCategoria: TChangeTabAction;
+    actPrinc_Categoria: TChangeTabAction;
     imglstIcoBtn: TImageList;
-    actLancamento: TChangeTabAction;
-    actPerfil: TChangeTabAction;
-    TabItem1: TTabItem;
+    actPrinc_Lancamento: TChangeTabAction;
+    actPrinc_Perfil: TChangeTabAction;
+    tabPrinc_Teste: TTabItem;
     Rectangle28: TRectangle;
     SpeedButton9: TSpeedButton;
     btnAcessar: TSpeedButton;
-    TabLogin: TTabControl;
-    tabiLogar: TTabItem;
-    tabiCadUsuario: TTabItem;
+    TabcLogin: TTabControl;
+    tabLogin_Logar: TTabItem;
+    tabLogin_CadUsuario: TTabItem;
     btnCadastarUsuario: TSpeedButton;
     btnAvancarDescricao: TSpeedButton;
     btnAvancarValor: TSpeedButton;
@@ -434,15 +428,56 @@ type
     btnSalvarCadLancamento: TSpeedButton;
     BtnAlterSenha: TSpeedButton;
     BtnPerfilLogoff: TSpeedButton;
+    actTabLogin: TActionList;
+    actLogin_Logar: TChangeTabAction;
+    actLogin_CadUsuario: TChangeTabAction;
+    Image1: TImage;
+    lblUsuarioLogin: TLabel;
+    Rectangle29: TRectangle;
+    rectHomeTop: TRectangle;
+    Layout30: TLayout;
+    Image4: TImage;
+    Layout31: TLayout;
+    Image5: TImage;
+    Layout32: TLayout;
+    Label2: TLabel;
+    Layout33: TLayout;
+    Rectangle30: TRectangle;
+    Layout34: TLayout;
+    lblDataAtualtabiHome: TLabel;
+    Layout36: TLayout;
+    lblSaldoAtualLinhaTempo: TLabel;
+    lblSaldoRestanteLinhaTempo: TLabel;
+    lblApagarLinhaTempo: TLabel;
+    lblAreceberLinhaTempo: TLabel;
+    Label35: TLabel;
+    Rectangle31: TRectangle;
+    Rectangle32: TRectangle;
+    ShadowEffect2: TShadowEffect;
+    ShadowEffect3: TShadowEffect;
+    Layout5: TLayout;
+    Layout37: TLayout;
+    Label37: TLabel;
+    SpeedButton11: TSpeedButton;
+    Label38: TLabel;
+    Layout35: TLayout;
+    Image3: TImage;
+    Image6: TImage;
+    Image7: TImage;
+    Image8: TImage;
+    Line1: TLine;
+    Line4: TLine;
+    Line5: TLine;
+    BlurEffect1: TBlurEffect;
     procedure ListBoxLancamentoClick(Sender: TObject);
     procedure BtnCategoriaAddClick(Sender: TObject);
-    procedure BtnCadCategoriaVoltaClick(Sender: TObject);
+//    procedure BtnCadCategoriaVoltaClick(Sender: TObject);
     procedure ListBoxCategoriaClick(Sender: TObject);
     procedure ListCategoriaItemClickEx(const Sender: TObject;
       ItemIndex: Integer; const LocalClickPos: TPointF;
       const ItemObject: TListItemDrawable);
-    procedure BtnCadCategoriaSalvaClick(Sender: TObject);
-    procedure BtnCadCategoriaExcluiClick(Sender: TObject);
+//    procedure BtnCadCategoriaSalvaClick(Sender: TObject);
+//    procedure BtnCadCategoriaExcluiClick(Sender: TObject);
     procedure ListBoxPerfilClick(Sender: TObject);
     procedure BtnLancamentoVoltaMesClick(Sender: TObject);
     procedure BtnLancamentoAvancaMesClick(Sender: TObject);
@@ -506,6 +541,10 @@ type
     procedure LstContasAbertaItemClickEx(const Sender: TObject;
       ItemIndex: Integer; const LocalClickPos: TPointF;
       const ItemObject: TListItemDrawable);
+    procedure SpeedButton2Click(Sender: TObject);
+    procedure EdtCadLoginNoneExit(Sender: TObject);
+    procedure edtCadLoginSenhaExit(Sender: TObject);
+    procedure edtCadLoginConfiSenhaExit(Sender: TObject);
 
   private
     { Private declarations }
@@ -517,7 +556,7 @@ type
     vMes, vAno:           Integer;
     vTipoLancameto:       string;
 
-    //Variavel Tela cadLancamento:
+//  Variavel Tela cadLancamento:
     vIDcbxCategoria:          array [0 .. 255] of integer;
     vValidaCampoCadLanc:      Boolean;
     vEdtDescCadLanc:          string;
@@ -535,17 +574,17 @@ type
     vDetal2LstCadLancaCateg:  string;
 
 
-    procedure AtualLstLacanmentoTabiLancamento;
-    procedure AtualLstContaAbertaTabiHome;
-    procedure AtualLstCategoriaTabiCategoria;
+//  procedure AtualLstLacanmentoTabiLancamento;
+//  procedure AtualLstContaAbertaTabiHome;
+//  procedure AtualLstCategoriaTabiCategoria;
     procedure AtualLstCadLancamento;
-    procedure AtualCboxCategoriaCadLancamento;
+//  procedure AtualCboxCategoriaCadLancamento;
     procedure AtualCboxQuitadoCadLancamento;
 
-    procedure AtualTabiHome;
+//  procedure AtualTabiHome;
 
     procedure IniciaNovoLancamento(DC : string);
-    procedure SalvaCadLancamento;
+//  procedure SalvaCadLancamento;
     procedure LimpavDetal2LstCadLanc;
     procedure ValidaCampoCadLanc;
     procedure SairTelaDescricaoCadLancamento;
@@ -556,101 +595,56 @@ type
     procedure SairTelaCategoriaCadLancamento;
 
 
-    procedure MsgInformativaToolb (AMessagem: string);
-    procedure IrParaTela(NomeTabi: TTabItem);
-    //procedure ValidaUsuario;
+
+//  procedure IrParaTela(NomeTabi: TTabItem);
+//  procedure ValidaSenhaUsuario;
+//  procedure UsuarioCadastro;
     procedure EfeitoBtnApagarReceber(Botao: TRectangle);
     procedure EfeitoBtnFiltro(Botaofiltro: TRectangle);
     procedure FiltrolstContaAberta(status: string);
     procedure AlteracaodimensaoDaTela;
-    procedure CarregaCamposLancamento(LstVeiw: TListView; indexLst: integer);
+//  procedure CarregaCamposLancamento(LstVeiw: TListView; indexLst: integer);
     procedure EnviaLancamentoParaEdicao(LstView1:TListView; indexLst: integer);
+//  procedure CadastrarUsuario;
+//  procedure updateTabConfigInd_Login(logado: string);
 
-    function GeraNovoIdTabela(ATabela, ACampoChave: string): Integer;
-    function FormateReal(AValorEntrada: string): string;
-    function NomeMes(): string;
+//  function GeraNovoIdTabela(ATabela, ACampoChave: string): Integer;
+
     function DataSqlLite(Adata: TDateTime): string;
-    function VerificaUsuarioLogado: Boolean;
+//  function ExisteUsuarioLogado: Boolean;
+//  function ValidaSenhaUsuario: boolean;
+
 
 
   public
     { Public declarations }
-  end;
 
-var
-  frmPrincipal: TfrmPrincipal;
+  procedure MsgInformativaToolb (AMessagem: string);
+  function NomeMes(MesNomerico: integer): string;
+  function FormateReal(AValorEntrada: string): string;
+
+end;
+  var
+    frmPrincipal: TfrmPrincipal;
+    Dm : TDm;
 
 implementation
 
 {$R *.fmx}
+uses
+  uLogin,uControleDeTela,uDmProcedures;
 
-uses uDatamodule,uAvancaTela;
-
-procedure TfrmPrincipal.BtnCadCategoriaExcluiClick(Sender: TObject);
-
-procedure DeleteCategoria;
-begin
-  with dm.FDQcategoria do
-  begin 
-    close;
-    Open();
-    Locate('id_categoria', vIdCategoriaEditar);
-    Delete;
-    close;
-  end;
-
-  MsgInformativaToolb('Categoria deletada com exito ');
-end; 
- 
-begin
-  DeleteCategoria;
-  IrParaTela(uAvancaTela.VoltaTela);
-
-{
-  MessageDlg('Confinar a Exclusão ?', System.UITypes.TMsgDlgType.mtConfirmation,
-    [System.UITypes.TMsgDlgBtn.mbYes, System.UITypes.TMsgDlgBtn.mbNo], 0,
-    procedure(const Aresult: TModalResult)
-    begin
-      case Aresult of
-        mrYes:
-        begin 
-        
-        end;
-        mrNo:
-        begin
-          exit
-        end
-      end;
-    end);
-}
-end;
 
 procedure TfrmPrincipal.FormShow(Sender: TObject);
 begin
+  Dm := TDm.Create(self);
 
-  Dm := TDm.Create(nil);
+  uControleDeTela.RecebTabPrincipal(tabPrinc_Home);
 
-
-
-  if VerificaUsuarioLogado then
-    IrParaTela(uAvancaTela.AvancaTela(tabiHome))
+  if uDmProcedures.ExistUsuarioLogado then
+    uControleDeTela.AvancaTela(tabPrinc_Home)
   else
-    IrParaTela(uAvancaTela.AvancaTela(tabiLogin));
-
-end;
-
-function TfrmPrincipal.VerificaUsuarioLogado: Boolean;
-begin
-  with Dm.FDQUsuario do
-  begin
-    Close;
-    Open;
-
-    if FieldByName('ind_login').AsString = 'S' then
-      result := true
-    else
-      result := false;
-  end
+    uControleDeTela.AvancaTela(tabPrinc_Login);
 end;
 
 procedure TfrmPrincipal.SairTelaCategoriaCadLancamento;
@@ -661,6 +655,7 @@ begin
     vEdtCategCadLanc := cboxCategriaCadLanc.Items[cboxCategriaCadLanc.ItemIndex];
 
   ValidaCampoCadLanc;
+  tabcPrinc.Tabs[1]
 end;
 
 procedure TfrmPrincipal.SairTelaDataCadLancamento;
@@ -688,7 +683,7 @@ var
 begin
   indexCbox := cboxQuitada.Items[cboxQuitada.ItemIndex];
 
-  vEdtQuitaCadLanc :=  ifelseConvert(indexCbox,'SIM','S','NAO','N');
+  //vEdtQuitaCadLanc :=  ifelseConvert(indexCbox,'SIM','S','NAO','N');
   ValidaCampoCadLanc;
 end;
 
@@ -705,8 +700,8 @@ begin
 
   if vValidaCampoCadLanc then
   begin
-    SalvaCadLancamento;
-    IrParaTela(uAvancaTela.VoltaTela);
+    //SalvaCadLancamento;
+    //IrParaTela(uAvancaTela.VoltaTela);
   end
   else
     exit
@@ -717,7 +712,7 @@ begin
   SairTelaCategoriaCadLancamento;
   actTabi00.ExecuteTarget(self);
 end;
-
+ {
 procedure TfrmPrincipal.CarregaCamposLancamento(LstVeiw: TListView; indexLst: integer);
 begin
 begin
@@ -733,26 +728,29 @@ begin
   vEdtQuitaCadLanc  := dm.FDQTabLancamento.FieldByName('quitada').AsString;
   vEdtCategCadLanc  := dm.FDQTabLancamento.FieldByName('id_categoria').AsString;
 end;
+  }
 
 
-end;
 
-procedure TfrmPrincipal.IrParaTela(NomeTabi: TTabItem);
+{procedure TfrmPrincipal.IrParaTela(NomeTabi: TTabItem);
 begin
 
   case NomeTabi.Index of
     0: //Login
     begin
       MultiView.Enabled := false;
-      RectCadLogin.Visible := false;
-      actLogin.ExecuteTarget(self);
+      UsuarioCadastro;
+      actPrinc_Login.ExecuteTarget(self);
+
     end;
 
     1: //Home
     begin
       MultiView.Enabled := true;
-      AtualTabiHome;
-      actHome.ExecuteTarget(self);
+      //uTelaHome.IniciatabHome;
+      //AtualTabiHome;
+
+      actPrinc_Home.ExecuteTarget(self);
     end;
 
     2: //Lancamento
@@ -762,13 +760,14 @@ begin
 
       AtualLstLacanmentoTabiLancamento;
 
-      actLancamento.ExecuteTarget(self);
+      actPrinc_Lancamento.ExecuteTarget(self);
     end;
 
     3: //Categorias
     begin
       AtualLstCategoriaTabiCategoria;
-      actCategoria.ExecuteTarget(self);
+      actPrinc_Categoria.ExecuteTarget(self);
+
     end;
 
     4: //Cadastro de categoria
@@ -783,38 +782,34 @@ begin
       EdtCadCategoriaDesc.Text := '';
 
       EdtCadCategoriaDesc.SetFocus;
-      actCadCategoria.ExecuteTarget(self);
+      actPrinc_CadCategoria.ExecuteTarget(self);
     end;
 
     5: //Perfil
     begin
-      actPerfil.ExecuteTarget(self);
+      actPrinc_Perfil.ExecuteTarget(self);
     end;
 
     7: //Cadastro de Lancamento
     begin
-      tabCadLancamento.ActiveTab    := TABI_00;
+      tabcCadLanc.ActiveTab    := tabCadLanc_Hone;
 
       AtualLstCadLancamento;
       AtualCboxCategoriaCadLancamento;
       AtualCboxQuitadoCadLancamento;
 
-      actCadLancamento.ExecuteTarget(self);
+      actPrinc_CadLancamento.ExecuteTarget(self);
     end;
   end;
-end;
+end;  }
+
 
 procedure TfrmPrincipal.lblLoginCriaNovaContaClick(Sender: TObject);
 begin
-
-  RectCadLogin.Visible        := true;
-  EdtCadLoginNone.Text        := '';
-  edtCadSenha.Text            := '';
-  edtCadLoginConfiSenha.Text  := '';
-  EdtCadLoginNone.SetFocus;
-
+  uLogin.IniciarCadastroUsuario;
 end;
 
+ {
 procedure TfrmPrincipal.AtualLstContaAbertaTabiHome;
 var
   AddList: TListViewItem;
@@ -870,8 +865,8 @@ begin
 
     LstContasAberta.EndUpdate;
   end;
-end;
-
+end;    }
+{
 procedure TfrmPrincipal.AtualLstLacanmentoTabiLancamento;
 var
   TitemAdd: TListViewItem;
@@ -923,10 +918,10 @@ begin
 
   lblTotalReceita.Text := FormateReal(Dm.FDQgeral.FieldByName('receitas').AsString);
   lblTotalDespesa.Text := FormateReal(Dm.FDQgeral.FieldByName('despesas').AsString);
-  lblData.Text := NomeMes + ' / ' + IntToStr(vAno);
+  lblData.Text := NomeMes(vMes) + ' / ' + IntToStr(vAno);
   Dm.FDQgeral.Close;
 
-end;
+end;      }
 
 procedure TfrmPrincipal.AtualLstCadLancamento;
 var
@@ -961,7 +956,7 @@ begin
 
   AddList       := lstCadLancamento.Items.Add;
   AddList.Text  := 'Quitada';
-  AddList.Data[TmultiDetail.Detail1] := ifelseConvert(vEdtQuitaCadLanc,'S','SIM','N','NAO');
+  //AddList.Data[TmultiDetail.Detail1] := ifelseConvert(vEdtQuitaCadLanc,'S','SIM','N','NAO');
   AddList.Data[TmultiDetail.Detail2] := vDetal2LstCadLancaQuita;
 
   AddList       := lstCadLancamento.Items.Add;
@@ -971,7 +966,7 @@ begin
 
   lstCadLancamento.EndUpdate;
 end;
-
+{
 procedure TfrmPrincipal.AtualLstCategoriaTabiCategoria;
 var
   itemAdd: TListViewItem;
@@ -1000,29 +995,29 @@ begin
   Dm.FDQcategoria.Close;
 
 end;
-
+     }
 procedure TfrmPrincipal.ListBoxLancamentoClick(Sender: TObject);
 begin
   MultiView.HideMaster;
-  IrParaTela(uAvancaTela.AvancaTela(tabiLancamento));
+  //IrParaTela(uAvancaTela.AvancaTela(tabPrinc_Lancamento));
 end;
 
 procedure TfrmPrincipal.listBoxPaineClick(Sender: TObject);
 begin
   MultiView.HideMaster;
-  IrParaTela(uAvancaTela.AvancaTela(tabiHome));
+  //IrParaTela(uAvancaTela.AvancaTela(tabPrinc_Home));
 end;
 
 procedure TfrmPrincipal.ListBoxPerfilClick(Sender: TObject);
 begin
   MultiView.HideMaster;
-  IrParaTela(uAvancaTela.AvancaTela(TabiPerfil));
+  //IrParaTela(uAvancaTela.AvancaTela(TabPrinc_Perfil));
 end;
 
 procedure TfrmPrincipal.ListBoxCategoriaClick(Sender: TObject);
 begin
   MultiView.HideMaster;
-  IrParaTela(uAvancaTela.AvancaTela(tabiCategoria));
+  //IrParaTela(uAvancaTela.AvancaTela(tabPrinc_Categoria));
 end;
 
 procedure TfrmPrincipal.ListCategoriaItemClickEx(const Sender: TObject;
@@ -1034,7 +1029,7 @@ begin
   EdtCadCategoriaDesc.Text      := ListCategoria.Items[ItemIndex].Text;
   vIdCategoriaEditar            := ListCategoria.Items[ItemIndex].Detail;
 
-  IrParaTela(uAvancaTela.AvancaTela(tabiCadCategoria));
+  //IrParaTela(uAvancaTela.AvancaTela(tabPrinc_CadCategoria));
 end;
 
 procedure TfrmPrincipal.lstCadLancamentoItemClickEx(const Sender: TObject;
@@ -1065,7 +1060,7 @@ begin
     end;
   4:
     begin
-      cboxQuitada.ItemIndex := StrToInt(ifelseConvert(vEdtQuitaCadLanc,'S','0','N','1'));
+      //cboxQuitada.ItemIndex := StrToInt(ifelseConvert(vEdtQuitaCadLanc,'S','0','N','1'));
       actTabiQuitada.ExecuteTarget(self);
     end;
   5:
@@ -1091,7 +1086,7 @@ begin
   {$ENDIF}
 
 end;
-
+ {
 procedure TfrmPrincipal.AtualCboxCategoriaCadLancamento;
 var
   i: integer;
@@ -1117,7 +1112,7 @@ begin
   end;
 
   dm.FDQcategoria.Close;
-end;
+end;   }
 
 procedure TfrmPrincipal.AtualCboxQuitadoCadLancamento;
 begin
@@ -1180,9 +1175,9 @@ begin
   TimFechaInformacao.Enabled  := true;
 end;
 
-function TfrmPrincipal.NomeMes: string;
+function TfrmPrincipal.NomeMes(MesNomerico: integer): string;
 begin
-  case vMes of
+  case MesNomerico of
     1:
       result := 'Janeiro';
     2:
@@ -1210,23 +1205,24 @@ begin
   end;
 end;
 
+
 procedure TfrmPrincipal.SpeedButton10Click(Sender: TObject);
 begin
 
-  IrParaTela(uAvancaTela.AvancaTela(tabiCadCategoria));
+  //IrParaTela(uAvancaTela.AvancaTela(tabPrinc_CadCategoria));
 
 end;
 
 procedure TfrmPrincipal.SpeedButton1Click(Sender: TObject);
 begin
 
-  case tabCadLancamento.TabIndex of
-    0: IrParaTela(uAvancaTela.VoltaTela);
+  case tabcCadLanc.TabIndex of
+{    0: //IrParaTela(uAvancaTela.VoltaTela);
     1:
     begin
       SairTelaDescricaoCadLancamento;
       actTabi00.ExecuteTarget(self);
-    end;
+    end; }
 
     2:
     begin
@@ -1256,6 +1252,12 @@ begin
       actTabiQuitada.ExecuteTarget(self);
     end;
   end;
+end;
+
+procedure TfrmPrincipal.SpeedButton2Click(Sender: TObject);
+begin
+  EdtLoginSenha.Text := '';
+  actLogin_Logar.ExecuteTarget(self);
 end;
 
 procedure TfrmPrincipal.SpeedButton3Click(Sender: TObject);
@@ -1293,13 +1295,18 @@ begin
   SairTelaCategoriaCadLancamento;
   actTabi00.ExecuteTarget(self);
 end;
-
+{
 procedure TfrmPrincipal.SalvaCadLancamento;
 var
   idCadlancamento: integer;
 
 begin
-  idCadlancamento     := GeraNovoIdTabela('tab_lancamento','id_lancamento');
+  if vModulo = dsInsert then
+  begin
+    //idCadlancamento     := GeraNovoIdTabela('tab_lancamento','id_lancamento');
+    dm.FDQtabLancamento.Open();
+    dm.FDQtabLancamento.Insert;
+  end;
 
   with dm.FDQtabLancamento do
   begin
@@ -1325,7 +1332,7 @@ begin
 
   MsgInformativaToolb('Lancamento salvo !');
 end;
-
+       }
 procedure TfrmPrincipal.ValidaCampoCadLanc;
 begin
   vValidaCampoCadLanc := false;
@@ -1371,24 +1378,37 @@ begin
 
   AtualLstCadLancamento;
 end;
+{
+function TfrmPrincipal.ValidaSenhaUsuario: boolean;
+begin
+  if (EdtLoginSenha.Text) = ''then
+    begin
+      Dm.FDQuery1.Edit;
+      Dm.FDQuery1.FieldByName('ind_login').AsString := 'S';
+      Dm.FDQuery1.Post;
+      result := true;
+    end
+    else
+    begin
+      MsgInformativaToolb('Usuário ou senha invalida.');
+      result := false;
+    end;
+end;     }
 
 procedure TfrmPrincipal.BtnLancExcluirClick(Sender: TObject);
 begin
-  Dm.FDQlancamento.Delete;
+  //Dm.FDQlancamento.Delete;
 end;
 
 procedure TfrmPrincipal.BtnPerfilLogoffClick(Sender: TObject);
 begin
-  Dm.FDQUsuario.Close;
-  Dm.FDQUsuario.SQL.Clear;
-  Dm.FDQUsuario.SQL.Add('update tab_config set ind_login = ''N''');
-  Dm.FDQUsuario.ExecSQL;
-
+  uDmProcedures.UpdateUsuarioCadastrado('N');
+  uControleDeTela.AvancaTela(tabPrinc_Login);
 end;
 
 procedure TfrmPrincipal.BtnPerfilVoltaClick(Sender: TObject);
 begin
-  IrParaTela(uAvancaTela.VoltaTela);
+  //IrParaTela(uAvancaTela.VoltaTela);
 end;
 
 procedure TfrmPrincipal.BtnHomeVoltaMesClick(Sender: TObject);
@@ -1401,14 +1421,14 @@ begin
     vAno := vAno - 1;
   end;
 
-  AtualTabiHome;
+  //AtualTabiHome;
 
 end;
 
 procedure TfrmPrincipal.lblBtnContasAreceberClick(Sender: TObject);
 begin
   EfeitoBtnApagarReceber(RectLinhaBtnAreceber);
-  AtualLstContaAbertaTabiHome;
+  //AtualLstContaAbertaTabiHome;
 end;
 
 procedure TfrmPrincipal.BtnHabilitaFiltroHomeClick(Sender: TObject);
@@ -1433,26 +1453,26 @@ begin
     vMes := 1;
     vAno := vAno + 1;
   end;
-  AtualTabiHome;
+  //AtualTabiHome;
 end;
 
 procedure TfrmPrincipal.BtnHomeHomeClick(Sender: TObject);
 begin
-  IrParaTela(uAvancaTela.AvancaTela(tabiHome));
+  //IrParaTela(uAvancaTela.AvancaTela(tabPrinc_Home));
 end;
 
 procedure TfrmPrincipal.BtnHomeLancDespesaClick(Sender: TObject);
 begin
 
   IniciaNovoLancamento('despesa');
-  IrParaTela(uAvancaTela.AvancaTela(TabiCadLancamento));
+  //IrParaTela(uAvancaTela.AvancaTela(TabPrinc_CadLancamento));
 
 end;
 
 procedure TfrmPrincipal.BtnHomeLancReceitaClick(Sender: TObject);
 begin
   IniciaNovoLancamento('receita');
-  IrParaTela(uAvancaTela.AvancaTela(TabiCadLancamento));
+  //IrParaTela(uAvancaTela.AvancaTela(TabPrinc_CadLancamento));
 end;
 
 procedure TfrmPrincipal.BtnHomeNotificacaoClick(Sender: TObject);
@@ -1462,47 +1482,15 @@ end;
 
 procedure TfrmPrincipal.BtnCadLancamentoVoltaClick(Sender: TObject);
 begin
-  Dm.FDQlancamento.Cancel;
-  Dm.FDQlancamento.Close;
+  //Dm.FDQlancamento.Cancel;
+  //Dm.FDQlancamento.Close;
 end;
-
-{
-procedure TfrmPrincipal.ValidaUsuario;
-begin
-
-  if UpperCase(EdtLoginLogin.Text) = Dm.FDQUsuario.FieldByName('login').AsString
-  then
-  begin
-    if UpperCase(EdtLoginSenha.Text) = Dm.FDQUsuario.FieldByName('senha').AsString
-    then
-    begin
-      Dm.FDQUsuario.Close;
-      Dm.FDQUsuario.Open;
-      Dm.FDQUsuario.Edit;
-      Dm.FDQUsuario.FieldByName('ind_login').AsString := 'S';
-      Dm.FDQUsuario.Post;
-
-    end
-    else
-    begin
-      MsgInformativaToolb('Usuário ou senha invalida.');
-      EdtLoginLogin.SetFocus;
-      exit
-    end
-  end
-  else
-  begin
-    MsgInformativaToolb('Usuário ou senha invalida.');
-    EdtLoginLogin.SetFocus;
-    exit
-  end;
-end;   }
 
 procedure TfrmPrincipal.lblBtnContasApagarClick(Sender: TObject);
 begin
 
   EfeitoBtnApagarReceber(RectLinhaBtnApagar);
-  AtualLstLacanmentoTabiLancamento;
+  //AtualLstLacanmentoTabiLancamento;
 
 end;
 
@@ -1511,7 +1499,7 @@ begin
 
   vTipoFiltro := 'proxino';
   EfeitoBtnFiltro(RectLinhaBtnProxino);
-  AtualLstContaAbertaTabiHome;
+  //AtualLstContaAbertaTabiHome;
   FiltrolstContaAberta('nao');
 
 end;
@@ -1521,7 +1509,7 @@ begin
 
   vTipoFiltro := 'anterior';
   EfeitoBtnFiltro(RectLinhaBtnAnterior);
-  AtualLstLacanmentoTabiLancamento;
+  //AtualLstLacanmentoTabiLancamento;
   FiltrolstContaAberta('nao');
 
 end;
@@ -1534,7 +1522,7 @@ begin
 
   vTipoFiltro := 'hoje';
   EfeitoBtnFiltro(RectLinhaBtnHoje);
-  AtualLstLacanmentoTabiLancamento;
+  //AtualLstLacanmentoTabiLancamento;
   FiltrolstContaAberta('nao');
 
 end;
@@ -1545,9 +1533,29 @@ begin
   TimFechaInformacao.Enabled := false;
 end;
 
+
+
+
+{procedure TfrmPrincipal.UsuarioCadastro;
+begin
+  dm.FDQuery1.Close;
+  dm.FDQuery1.Open();
+
+  if dm.FDQuery1.RecordCount = 0 then
+    CadastrarUsuario
+  else
+    begin
+      TabcLogin.ActiveTab   := tabLogin_Logar;
+      lblUsuarioLogin.Text := dm.FDQuery1.FieldByName('login').AsString;
+    end;
+
+  dm.FDQuery1.Close;
+  EdtLoginSenha.Text := '';
+end;  }
+
 procedure TfrmPrincipal.BtnLancamentoVoltaClick(Sender: TObject);
 begin
-   IrParaTela(uAvancaTela.AvancaTela(tabiHome));
+   //IrParaTela(uAvancaTela.AvancaTela(tabPrinc_Home));
 end;
 
 procedure TfrmPrincipal.BtnLancamentoVoltaMesClick(Sender: TObject);
@@ -1558,7 +1566,7 @@ begin
     vMes := 12;
     vAno := vAno - 1;
   end;
-  AtualLstLacanmentoTabiLancamento;
+  //AtualLstLacanmentoTabiLancamento;
 end;
 
 procedure TfrmPrincipal.BtnLancamentoAddClick(Sender: TObject);
@@ -1574,17 +1582,17 @@ begin
     vMes := 1;
     vAno := vAno + 1;
   end;
-  AtualLstLacanmentoTabiLancamento;
+  //AtualLstLacanmentoTabiLancamento;
 end;
-
+  {
 function TfrmPrincipal.GeraNovoIdTabela(ATabela, ACampoChave: string): Integer;
 begin
-{
+
   dm.FDQNovoID.First vai para primeira linha;
   dm.FDQNovoID.Last vai para ultima linha;
   dm.FDQNovoID.Next vai para proxima linha;
 }
-
+  {
   Dm.FDQNovoID.SQL.Clear;
   Dm.FDQNovoID.SQL.Add('select COALESCE(max(' + ACampoChave +
     '),0) codigo from ' + ATabela);
@@ -1593,7 +1601,7 @@ begin
   result := Dm.FDQNovoID.FieldByName('codigo').AsInteger + 1;
   Dm.FDQNovoID.Close;
 
-end;
+end;         }
 
 procedure TfrmPrincipal.LimpavDetal2LstCadLanc;
 begin
@@ -1610,11 +1618,11 @@ end;
 procedure TfrmPrincipal.IniciaNovoLancamento(DC: string);
 
 begin
-    if DC = 'despesa' then
-    begin
-      vTipoLancameto            := 'D';
-      lblTituloCadLancamento.Text := 'Lancamento de despesa';
-    end
+  if DC = 'despesa' then
+  begin
+    vTipoLancameto            := 'D';
+    lblTituloCadLancamento.Text := 'Lancamento de despesa';
+  end
   else
   begin
     vTipoLancameto            := 'C';
@@ -1639,8 +1647,7 @@ begin
   btnSalvarCadLancaento.Visible := false;
   LimpavDetal2LstCadLanc;
 
-  dm.FDQInsertCadLancamento.Open();
-  dm.FDQInsertCadLancamento.Insert;
+  vModulo := dsInsert;
 end;
 
 procedure TfrmPrincipal.FiltrolstContaAberta(status: string);
@@ -1674,7 +1681,7 @@ begin
   else
     AValorEntrada := AValorEntrada + '00';
 
-  result := FormatFloat('R$ ###0.00', StrToFloat(AValorEntrada) / 100);
+  result := FormatFloat('###0.00', StrToFloat(AValorEntrada) / 100);
 end;
 
 procedure TfrmPrincipal.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -1690,14 +1697,13 @@ begin
   LstLancamento.ItemAppearance.ItemEditAppearance   :=  'MultiDetailItemShowCheck';
   LstContasAberta.ItemAppearance.ItemEditAppearance := 'MultiDetailItemShowCheck';
 
-  tabCadLancamento.TabPosition  := TTabPosition.None;
-  tabcPrincipal.TabPosition     := TTabPosition.None;
-  tabcPrincipal.ActiveTab       := tabiLogin;
+  tabcCadLanc.TabPosition  := TTabPosition.None;
+  tabcPrinc.TabPosition    := TTabPosition.None;
+  TabcLogin.TabPosition    := TTabPosition.None;
+  tabcPrinc.ActiveTab      := tabPrinc_Login;
 
-  RectCadLogin.Visible    := false;
   toobInformativa.Visible := false;
   MultiView.Enabled       := false;
-
 end;
 
 procedure TfrmPrincipal.FormKeyUp(Sender: TObject; var Key: Word;
@@ -1717,10 +1723,10 @@ begin
       in Fservice.VirtualKeyBoardState) then
     begin
     end
-    else if tabcPrincipal.ActiveTab = tabiHome then
+    else if tabcPrinc.ActiveTab = tabPrinc_Home then
     begin
     end;
-    if tabcPrincipal.ActiveTab = tabiCadCategoria then
+    if tabcPrinc.ActiveTab = tabPrinc_CadCategoria then
     begin
       Key := 0;
       // TelaAnterio;
@@ -1776,6 +1782,24 @@ begin
     KeyChar := #0;
 end;
 
+procedure TfrmPrincipal.edtCadLoginConfiSenhaExit(Sender: TObject);
+begin
+  if edtCadLoginConfiSenha.Text <> edtCadLoginSenha.text then
+    MsgInformativaToolb('Senha nao conferi com a digitada');
+end;
+
+procedure TfrmPrincipal.EdtCadLoginNoneExit(Sender: TObject);
+begin
+  if EdtCadLoginNone.Text = '' then
+    MsgInformativaToolb('Informe o nome do usuario');
+end;
+
+procedure TfrmPrincipal.edtCadLoginSenhaExit(Sender: TObject);
+begin
+  if edtCadLoginSenha.Text = '' then
+    MsgInformativaToolb('Infrome a senha');
+end;
+
 procedure TfrmPrincipal.edtDescricaoCadLancExit(Sender: TObject);
 begin
   edtDescricaoCadLanc.Text := UpperCase(edtDescricaoCadLanc.Text)
@@ -1812,11 +1836,11 @@ end;
 procedure TfrmPrincipal.EnviaLancamentoParaEdicao(LstView1: TListView; indexLst: integer);
 begin
   LimpavDetal2LstCadLanc;
-  CarregaCamposLancamento(LstView1,indexLst);
-  IrParaTela(uAvancaTela.AvancaTela(TabiCadLancamento));
+  //CarregaCamposLancamento(LstView1,indexLst);
+  //IrParaTela(uAvancaTela.AvancaTela(TabPrinc_CadLancamento));
 end;
 
-procedure TfrmPrincipal.AtualTabiHome;
+{procedure TfrmPrincipal.AtualTabiHome;
   procedure AtualizaLblSaldoAtual;
   var
     Totalpago, Totalrecebido, SaldoAtual: Double;
@@ -1879,7 +1903,7 @@ procedure TfrmPrincipal.AtualTabiHome;
 
   procedure AtualizalblNomeUsuario;
   begin
-    with Dm.FDQUsuario do
+    with Dm.FDQuery1 do
     begin
 
       Close;
@@ -1891,13 +1915,9 @@ procedure TfrmPrincipal.AtualTabiHome;
   end;
 begin
 
-  BtnHomeVoltaMes.Visible   := false;
-  BtnHomeAvancaMes.Visible  := false;
-  lblHomeMes.Visible        := false;
+  //AtualizalblNomeUsuario;
 
-  AtualizalblNomeUsuario;
-
-  AtualizaLblSaldoAtual;
+  //AtualizaLblSaldoAtual;
 
   AtualizaLblTotalApagar;
   AtualizaLblTotalAreceber;
@@ -1909,24 +1929,20 @@ begin
 
   AtualLstContaAbertaTabiHome;
 end;
-
+ }
 procedure TfrmPrincipal.btnAcessarClick(Sender: TObject);
 begin
 
-  if EdtLoginLogin.Text = '' then
-  begin
-    MsgInformativaToolb('Informe o usuário.');
-    EdtLoginLogin.SetFocus;
-    exit
-  end
-  else if EdtLoginSenha.Text = '' then
-  begin
-    MsgInformativaToolb('Informe a senha.');
-    EdtLoginSenha.SetFocus;
-    exit
-  end
-  else
-    //ValidaUsuario;
+   if uLogin.ValidaSenhaUsuario(EdtLoginSenha.Text) then
+    begin
+      uDmProcedures.UpdateUsuarioCadastrado('S');
+      uControleDeTela.AvancaTela(tabPrinc_Home);
+    end
+    else
+    begin
+      MsgInformativaToolb('Informe a senha.');
+      EdtLoginSenha.SetFocus;
+    end;
 end;
 
 procedure TfrmPrincipal.btnAvancarDataClick(Sender: TObject);
@@ -1960,71 +1976,12 @@ begin
 end;
 
 procedure TfrmPrincipal.btnCadastarUsuarioClick(Sender: TObject);
-
-  procedure CadastrarUsuario;
-  begin
-    Dm.FDQDelete.Close;
-    Dm.FDQDelete.SQL.Clear;
-    Dm.FDQDelete.SQL.Add('delete from tab_config');
-    Dm.FDQDelete.ExecSQL;
-
-    with Dm.FDQUsuario do
-    begin
-      Close;
-      Open();
-      Insert;
-      FieldByName('login').AsString := UpperCase(EdtCadLoginNone.Text);
-      FieldByName('senha').AsString := UpperCase(edtCadSenha.Text);
-      FieldByName('ind_login').AsString := 'N';
-      FieldByName('nome').AsString := UpperCase(EdtCadLoginNone.Text);
-      FieldByName('idiona').AsString := 'PROTUGUES';
-      FieldByName('moeda').AsString := 'REAL';
-      Post;
-      Close;
-    end;
-
-  end;
-
-  function ValidaCampos: Boolean;
-  begin
-    if EdtCadLoginNone.Text = '' then
-    begin
-      MsgInformativaToolb('É messesario informar o Nome do Usuario');
-      result := false;
-      exit
-    end;
-
-    if edtCadSenha.Text = '' then
-    begin
-      MsgInformativaToolb('É messesario informar a senha ');
-      result := false;
-      exit
-    end;
-
-    if edtCadLoginConfiSenha.Text <> edtCadSenha.Text then
-    begin
-      MsgInformativaToolb('A senha nao conferia com a digita');
-      result := false;
-      exit
-    end;
-    result := true;
-  end;
-
 begin
-
-  if ValidaCampos then
-  begin
-
-    CadastrarUsuario;
-    RectCadLogin.Visible := false;
-
-  end
-  else
-  begin
-
-    exit
-
-  end
+  uDmProcedures.InsertUsuario;
+  EdtLoginSenha.text := '';
+  EdtLoginSenha.SetFocus;
+  uLogin.UsuarioCadastro;
+  TabcLogin.ActiveTab := tabLogin_Logar;
 end;
 
 procedure TfrmPrincipal.BtnCategoriaAddClick(Sender: TObject);
@@ -2033,26 +1990,26 @@ begin
   EdtCadCategoriaDesc.Text := '';
   EdtCadCategoriaDesc.SetFocus;
   vModuloCadCategoria := dsInsert;
-  IrParaTela(uAvancaTela.AvancaTela(tabiCadCategoria));
+  //IrParaTela(uAvancaTela.AvancaTela(tabPrinc_CadCategoria));
 
 end;
 
 procedure TfrmPrincipal.BtnCategoriaVoltaClick(Sender: TObject);
 begin
-  IrParaTela(uAvancaTela.VoltaTela);
-  //AvancaTela(tabiHome);
+  //IrParaTela(uAvancaTela.VoltaTela);
+  //AvancaTela(tabPrinc_Home);
 end;
-
+ {
 procedure TfrmPrincipal.BtnCadCategoriaVoltaClick(Sender: TObject);
 begin
 
   if Dm.FDQcategoria.State in dsEditModes then
     Dm.FDQcategoria.Cancel;
 
-  IrParaTela(uAvancaTela.VoltaTela);
+  //IrParaTela(uAvancaTela.VoltaTela);
 
-end;
-
+end;}
+{
 procedure TfrmPrincipal.BtnCadCategoriaSalvaClick(Sender: TObject);
 
   function ValidaCampoCadCateoria: Boolean;
@@ -2090,7 +2047,7 @@ procedure TfrmPrincipal.BtnCadCategoriaSalvaClick(Sender: TObject);
 
     end;
 
-  end; 
+  end;
 
   procedure GravaCadCategoria;
   begin
@@ -2110,7 +2067,7 @@ procedure TfrmPrincipal.BtnCadCategoriaSalvaClick(Sender: TObject);
    begin 
     dm.FDQcategoria.Insert;
     Dm.FDQcategoriaDESCRICAO.AsString     := UpperCase(EdtCadCategoriaDesc.Text);
-    Dm.FDQcategoriaID_CATEGORIA.AsInteger := GeraNovoIdTabela('tab_categoria','id_categoria');
+    //Dm.FDQcategoriaID_CATEGORIA.AsInteger := GeraNovoIdTabela('tab_categoria','id_categoria');
     Dm.FDQcategoria.Post;  
    end;
 
@@ -2123,8 +2080,8 @@ begin
   else
   begin 
     GravaCadCategoria;
-    IrParaTela(uAvancaTela.VoltaTela);
+    //IrParaTela(uAvancaTela.VoltaTela);
     MsgInformativaToolb('Categoria cadastra com exito');  
   end
-end;
+end;  }
 end.

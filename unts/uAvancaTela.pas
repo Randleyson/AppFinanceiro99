@@ -40,9 +40,9 @@ begin
     if vListDeTela[i] = nil then
     begin
       if i = 1 then
-        vListDeTela[i] := frmPrincipal.tabiHome
+        vListDeTela[i] := frmPrincipal.tabPrinc_Home
       else
-        vListDeTela[i] := frmPrincipal.tabcPrincipal.Tabs[NomeTela.Index];
+        vListDeTela[i] := frmPrincipal.tabcPrinc.Tabs[NomeTela.Index];
       result           := NomeTela;
       exit
     end
