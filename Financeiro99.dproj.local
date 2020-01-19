@@ -10,7 +10,7 @@
     <Transaction>2019/12/21 19:38:24.000.943,D:\Programacão\Delphi\android\AppFinanceiro99\unts\uFrmSplash.fmx=D:\Programacão\Delphi\android\AppFinanceiro99\Unit1.fmx</Transaction>
   </Transactions>
 	<ActiveMobileDevice>
-		<NoProfile iOSSimulator="iPhone5" Android="0036911910"/>
+		<NoProfile iOSSimulator="iPhone5" Android="Vr.Celular"/>
 	</ActiveMobileDevice>
 	<BT_BuildType>Debug</BT_BuildType>
 </BorlandProject>
