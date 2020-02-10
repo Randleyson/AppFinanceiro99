@@ -1,4 +1,4 @@
-unit uAvancaTela;
+unit _uAvancaTela;
 
 interface
 uses

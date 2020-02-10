@@ -4,8 +4,9 @@ interface
 uses
  System.SysUtils;
 
-  procedure UsuarioCadastro;
+  procedure InicilizaLogin;
   procedure IniciarCadastroUsuario;
+
 
 
 
@@ -16,28 +17,54 @@ implementation
 uses
   uFrmPrincipal, uDatamodule,uDmProcedures;
 
-
-procedure IniciarCadastroUsuario;
+procedure InicilizaLogin;
 begin
-  frmPrincipal.EdtCadLoginNone.Text        := '';
-  frmPrincipal.edtCadLoginSenha.Text       := '';
-  frmPrincipal.edtCadLoginConfiSenha.Text  := '';
+  frmPrincipal.MultiView.Enabled := False;
 
-  frmPrincipal.EdtCadLoginNone.SetFocus;
 
-  frmPrincipal.actLogin_CadUsuario.ExecuteTarget(nil);
-end;
-
-procedure UsuarioCadastro;
-begin
   if uDmProcedures.UsuarioCadastrado = '' then
-      IniciarCadastroUsuario
+  begin
+    frmPrincipal.EdtCadLoginNone.Text        := '';
+    frmPrincipal.edtCadLoginSenha.Text       := '';
+    frmPrincipal.edtCadLoginConfiSenha.Text  := '';
+
+    frmPrincipal.EdtCadLoginNone.SetFocus;
+
+    frmPrincipal.actLogin_CadUsuario.ExecuteTarget(nil);
+  end
   else
   begin
     frmPrincipal.TabcLogin.ActiveTab   := frmPrincipal.tabLogin_Logar;
     frmPrincipal.lblUsuarioLogin.Text  := uDmProcedures.UsuarioCadastrado;
     frmPrincipal.EdtLoginSenha.Text    := '';
+    frmPrincipal.EdtLoginSenha.SetFocus;
+
   end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+end;
+
+
+procedure IniciarCadastroUsuario;
+begin
+
 end;
 
 function ValidaSenhaUsuario(Senha : string): Boolean;

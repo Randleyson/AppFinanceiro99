@@ -2,12 +2,13 @@ unit uControleDeTela;
 
 interface
 uses
-  System.SysUtils,uDatamodule,FMX.TabControl;
+  System.SysUtils,uDatamodule,FMX.TabControl,db;
 
   procedure RecebTabPrincipal(tabiItem: TTabItem);
-  procedure VaiParaTela;
+  procedure ControlTelaAvanca(tabiTela: TTabItem);
   procedure AvancaTela(tabiTela: TTabItem);
-  procedure VoltaTela;
+  procedure ProcessaTela(tabiTela: TTabItem);
+  procedure ControlTelaVoltaTela;
 
   var
   vTela : TTabItem;
@@ -18,114 +19,99 @@ implementation
 { TControleDeTela }
 
 uses
-  uLogin, uHome, uFrmPrincipal;
+  uLogin, uHome, uFrmPrincipal, uCadLancamento,uCategoria;
 
 procedure RecebTabPrincipal(tabiItem: TTabItem);
 begin
   vTabPirncipal :=  tabiItem;
 end;
 
-procedure AvancaTela(tabiTela: TTabItem);
+procedure ControlTelaAvanca(tabiTela: TTabItem);
 var
   i : integer;
-  x: Integer;
 
-  begin
-  i := 1;
-
-  vTela :=  tabiTela;
-
-
-  while i <> 10 do
-  begin
-    if vListDeTela[i] = nil then
-    begin
-      if i = 1 then
-        begin
-          vListDeTela[i] := vTabPirncipal;
-        end
-      else
-        begin
-          vListDeTela[i] := tabiTela;
-          VaiParaTela;
-          exit
-        end;
-    end
-    else
-    i := i+1;
-  end;
-
-
-end;
-
-procedure VaiParaTela;
 begin
-  case vTela.Index of
-    0: //TAB LOGIN
+    i := 1;
+    while i <> 10 do
     begin
-      frmPrincipal.MultiView.Enabled := False;
-      uLogin.UsuarioCadastro;
-      frmPrincipal.actPrinc_Login.ExecuteTarget(nil);
-
-    end;
-
-    1: //TAB HOME
-    begin
-      frmPrincipal.MultiView.Enabled := True;
-      uHome.InicializaTabHome;
-      frmPrincipal.actPrinc_Home.ExecuteTarget(frmPrincipal);
-    end;
-
-    {2: //TAB LANCAMENTO
-    begin
-      vMes := MonthOf(now);
-      vAno := YearOf(now);
-
-      AtualLstLacanmentoTabiLancamento;
-
-      actPrinc_Lancamento.ExecuteTarget(self);
-    end;
-
-    3: //Categorias
-    begin
-      AtualLstCategoriaTabiCategoria;
-      actPrinc_Categoria.ExecuteTarget(self);
-
-    end;
-
-    4: //Cadastro de categoria
-    begin
-
-      if EdtCadCategoriaDesc.Text = '' then
-        BtnCadCategoriaExclui.Visible := false
+      if vListDeTela[i] = nil then
+      begin
+        if i = 1 then
+          begin
+            vListDeTela[i] := vTabPirncipal;
+            exit
+          end
+        else
+          begin
+            if tabiTela = frmPrincipal.tabPrinc_Home then
+              exit
+            else
+            begin
+              vListDeTela[i] := tabiTela;
+              exit
+            end;
+          end;
+      i := i+1;
+      end
       else
-        BtnCadCategoriaExclui.Visible := true;
+        i := i+1;
+    end;
+end;
 
-      if vModuloCadCategoria = dsInsert then
-      EdtCadCategoriaDesc.Text := '';
 
-      EdtCadCategoriaDesc.SetFocus;
-      actPrinc_CadCategoria.ExecuteTarget(self);
+procedure  AvancaTela(tabiTela: TTabItem);
+begin
+  ControlTelaAvanca(tabiTela);
+  ProcessaTela(tabiTela);
+end;
+
+procedure ProcessaTela(tabiTela: TTabItem);
+begin
+  case tabiTela.Index of
+    0: //LOGIN
+    begin
+      uLogin.InicilizaLogin;
+      frmPrincipal.actPrinc_Login.ExecuteTarget(nil);
     end;
 
-    5: //Perfil
+    1: //HOME
     begin
-      actPrinc_Perfil.ExecuteTarget(self);
+      uHome.InicializaTabHome;
+      frmPrincipal.actPrinc_Home.ExecuteTarget(nil);
+    end;
+    3: // CATEGORIAS
+    begin
+      RefreshLstCategoria;
+      frmPrincipal.actPrinc_Categoria.ExecuteTarget(nil);
+    end;
+    4: // CAD_CATEGORIA
+    begin
+      if vCadCategriaInsertUpdate = dsInsert then
+        frmPrincipal.BtnCadCategoriaExclui.Visible := False
+      else
+        frmPrincipal.BtnCadCategoriaExclui.Visible := True;
+
+      frmPrincipal.EdtCadCategoriaDesc.Text := vCadCategriaDesc;
+      frmPrincipal.actPrinc_CadCategoria.ExecuteTarget(nil);
     end;
 
-    7: //Cadastro de Lancamento
+    5: //PERFIL
     begin
-      tabcCadLanc.ActiveTab    := tabCadLanc_Hone;
+      frmPrincipal.actPrinc_Perfil.ExecuteTarget(nil);
+    end;
 
-      AtualLstCadLancamento;
-      AtualCboxCategoriaCadLancamento;
-      AtualCboxQuitadoCadLancamento;
+    7: //CAD_LANCAMENTO
+    begin
+      if frmPrincipal.tabcCadLanc.ActiveTab = frmPrincipal.tabCadLanc_categoria then
+        RefreshLstCategoriaCadLanc;
 
-      actPrinc_CadLancamento.ExecuteTarget(self);
-    end;}
+      frmPrincipal.actPrinc_CadLancamento.ExecuteTarget(nil);
+    end;
   end;
 end;
-procedure VoltaTela;
+
+
+procedure ControlTelaVoltaTela;
 var
   i : integer;
 begin
@@ -139,17 +125,14 @@ begin
       vListDeTela[i] := nil;
       i := i -1;
       if i = 0 then
-        vTela := vListDeTela[1]
+        ProcessaTela(vListDeTela[1])
       else
-      begin
-        vTela := vListDeTela[i];
-      end;
+        ProcessaTela(vListDeTela[i]);
+        exit
     end
     else
       i:= i+ 1;
   end;
-
-  VaiParaTela;
 end;
 
 

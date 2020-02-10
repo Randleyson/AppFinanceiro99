@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>2019/09/22 17:19:59.000.569,C:\Users\Randleyson\Documents\Embarcadero\Studio\Projects\Unit1.fmx=D:\Programacão\Delphi\android\AppFinanceiro99\unts\uFrmPrincipal.fmx</Transaction>
-    <Transaction>2019/09/22 17:20:22.000.312,C:\Users\Randleyson\Documents\Embarcadero\Studio\Projects\Project1.dproj=D:\Programacão\Delphi\android\AppFinanceiro99\Pjfinanceiro99.dproj</Transaction>
-    <Transaction>2019/09/22 19:08:12.000.984,D:\Programacão\Delphi\android\AppFinanceiro99\unts\uDatamodule.dfm=D:\Programacão\Delphi\android\AppFinanceiro99\Unit1.dfm</Transaction>
-    <Transaction>2019/10/27 11:21:36.000.654,D:\Programacão\Delphi\android\AppFinanceiro99\Financeiro99.dproj=D:\Programacão\Delphi\android\AppFinanceiro99\Pjfinanceiro99.dproj</Transaction>
-    <Transaction>2019/12/21 19:04:45.000.988,D:\Programacão\Delphi\android\AppFinanceiro99\Unit1.fmx=D:\Programacão\Delphi\android\AppFinanceiro99\unts\Splash.fmx</Transaction>
-    <Transaction>2019/12/21 19:19:36.000.232,D:\Programacão\Delphi\android\AppFinanceiro99\unts\uSplash.fmx=D:\Programacão\Delphi\android\AppFinanceiro99\unts\Splash.fmx</Transaction>
-    <Transaction>2019/12/21 19:38:24.000.943,D:\Programacão\Delphi\android\AppFinanceiro99\unts\uFrmSplash.fmx=D:\Programacão\Delphi\android\AppFinanceiro99\Unit1.fmx</Transaction>
+    <Transaction>2019/09/22 17:19:59.000.569,D:\Programacão\Delphi\android\AppFinanceiro99\unts\uFrmPrincipal.fmx=C:\Users\Randleyson\Documents\Embarcadero\Studio\Projects\Unit1.fmx</Transaction>
+    <Transaction>2019/09/22 17:20:22.000.312,D:\Programacão\Delphi\android\AppFinanceiro99\Pjfinanceiro99.dproj=C:\Users\Randleyson\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2019/09/22 19:08:12.000.984,D:\Programacão\Delphi\android\AppFinanceiro99\Unit1.dfm=D:\Programacão\Delphi\android\AppFinanceiro99\unts\uDatamodule.dfm</Transaction>
+    <Transaction>2019/10/27 11:21:36.000.654,D:\Programacão\Delphi\android\AppFinanceiro99\Pjfinanceiro99.dproj=D:\Programacão\Delphi\android\AppFinanceiro99\Financeiro99.dproj</Transaction>
+    <Transaction>2019/12/21 19:04:45.000.988,D:\Programacão\Delphi\android\AppFinanceiro99\unts\Splash.fmx=D:\Programacão\Delphi\android\AppFinanceiro99\Unit1.fmx</Transaction>
+    <Transaction>2019/12/21 19:19:36.000.232,D:\Programacão\Delphi\android\AppFinanceiro99\unts\Splash.fmx=D:\Programacão\Delphi\android\AppFinanceiro99\unts\uSplash.fmx</Transaction>
+    <Transaction>2019/12/21 19:38:24.000.943,D:\Programacão\Delphi\android\AppFinanceiro99\Unit1.fmx=D:\Programacão\Delphi\android\AppFinanceiro99\unts\uFrmSplash.fmx</Transaction>
+    <Transaction>2020/02/09 20:13:58.188,D:\AppFinanceiro99\trunk\unts\uCategoria.pas=D:\AppFinanceiro99\trunk\Unit1.pas</Transaction>
   </Transactions>
 	<ActiveMobileDevice>
 		<NoProfile iOSSimulator="iPhone5" Android="Vr.Celular"/>

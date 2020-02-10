@@ -2,12 +2,19 @@ unit uHome;
 
 interface
 uses
-  System.UIConsts,System.SysUtils,System.DateUtils,FireDAC.Comp.DataSet,
-  FMX.ListView.Appearances, FMX.ListView.Adapters.Base,MultiDetailAppearanceU;
+  System.SysUtils,system.Types, system.UITypes, system.classes,
+  system.Variants, FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics,
+  FMX.Dialogs, FMX.TabControl, FMX.Objects, FMX.layouts, System.Actions,
+   FMX.ActnList, FMX.Gestures, FMX.COntrols.Presentation, FMX.StdCtrls,
+  FMX.ListView.Types,FMX.ListView.Adapters.Base, System.UIConsts,System.DateUtils,
+  FireDAC.Comp.DataSet, MultiDetailAppearanceU, FMX.Styles.Objects, FMX.ListView.Appearances;
+
 
   procedure RefreshLblMeuSaldo;
-  procedure RefreshLinhaDoTempo;
+  procedure RefreshValorLinhaDoTempo;
+  procedure RefreshUltimosLancmento;
   procedure InicializaTabHome;
+  procedure AddItemLstUltimoLanc(vDescricao, vCategoria, vValor, vTipo, vData: string);
 
 implementation
 
@@ -15,59 +22,57 @@ implementation
 uses
   uFrmPrincipal,uDatamodule,uDmProcedures;
 
- procedure RefreshUltimosLanc;
-var
-  AddList: TListViewItem;
-  TmultiDetail: TMultiDetailAppearanceNames;
-
+procedure RefreshUltimosLancmento;
 begin
-{
-  with Dm.FDQtabLancamento do
-  begin
-    Close;
-    SQL.strings[3] := '';
-    SQL.strings[4] := '';
-    SQL.strings[3] := 'where quitada = ''S''';
-    SQL.strings[4] := ' order by data';
-    Open();
-    first;
-
-    frmPrincipal.lstHomeUltimosLanc.Items.Clear;
-    frmPrincipal.lstHomeUltimosLanc.BeginUpdate;
-
-    while not eof do
-    begin
-    frmPrincipal.lstHomeUltimosLanc.Items.Clear;
-    frmPrincipal.lstHomeUltimosLanc.BeginUpdate;
-
-      AddList         := frmPrincipal.lstHomeUltimosLanc.Items.Add;
-      AddList.Detail  := '1';
-      AddList.Text    := 'SALARIO';
-      AddList.Data[TmultiDetail.Detail2] := 'R$ 2100,20';
-       frmPrincipal.lstHomeUltimosLanc.EndUpdate;
-
-
-      //AddList.Data[TmultiDetail.Detail1] := 'salario';
-      //AddList.Data[TmultiDetail.Detail2] := 'R$ 2100,20';
-      Next;
-    end;    }
-
-    //frmPrincipal.lstHomeUltimosLanc.EndUpdate;
-
+  frmPrincipal.lstUltimoLanc.Items.Clear;
+  uDmProcedures.DadoUltimoLancamento;
 end;
 
 
+procedure AddItemLstUltimoLanc(vDescricao, vCategoria, vValor, vTipo, vData: string);
+var
+  AddList:  TListViewItem;
+  ItemText: TListItemText;
+  ItemImg:  TListItemImage;
+begin
+
+  with frmPrincipal do
+  begin
+    AddList := lstUltimoLanc.Items.Add;
+    with AddList do
+    begin
+      ItemText          := TListItemText(Objects.FindDrawable('Text1'));
+      ItemText.Text     := vDescricao;
+
+      ItemText          := TListItemText(Objects.FindDrawable('Text2'));
+      ItemText.Text     := vData + ' - ' + vCategoria;
+
+      ItemText          := TListItemText(Objects.FindDrawable('Text3'));
+      if vTipo = 'D' then
+        ItemText.TextColor  := $25500255
+      else
+        ItemText.TextColor  := $FF30FF20;
+      ItemText.Text         := 'R$ ' + frmPrincipal.FormateReal(vValor);
+
+      ItemImg           := TListItemImage(Objects.FindDrawable('Image4'));
+      if vTipo = 'D' then
+        ItemImg.Bitmap  := frmPrincipal.imgUltimoLancDespesa.Bitmap
+      else
+        ItemImg.Bitmap  := frmPrincipal.imgUltimoLancReceita.Bitmap;
+    end;
+
+  end;
+end;
+
 procedure InicializaTabHome;
 begin
-  frmPrincipal.lblNomeDoUsuario.Text := uDmProcedures.UsuarioCadastrado;
-
-  RefreshLblMeuSaldo;
-
+  frmPrincipal.MultiView.Enabled         := True;
+  frmPrincipal.lblHomeNomeUsuario.Text   := uDmProcedures.UsuarioCadastrado;
   frmPrincipal.lblDataAtualtabiHome.Text := frmPrincipal.NomeMes(MonthOf(now))+'/'+
                                              IntToStr(YearOf(now));
-
-  RefreshLinhaDoTempo;
-  RefreshUltimosLanc;
+  RefreshLblMeuSaldo;
+  RefreshValorLinhaDoTempo;
+  RefreshUltimosLancmento;
 end;
 
 procedure RefreshLblMeuSaldo;
@@ -85,7 +90,7 @@ begin
   end;
 
 
-procedure RefreshLinhaDoTempo;
+procedure RefreshValorLinhaDoTempo;
 var
     SaldoInicial,ContasAreceber,ContasApagar: Double;
   begin

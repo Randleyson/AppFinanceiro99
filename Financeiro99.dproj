@@ -365,11 +365,13 @@
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="unts\uAvancaTela.pas"/>
+        <DCCReference Include="unts\_uAvancaTela.pas"/>
         <DCCReference Include="unts\uHome.pas"/>
         <DCCReference Include="unts\uControleDeTela.pas"/>
         <DCCReference Include="unts\uLogin.pas"/>
         <DCCReference Include="unts\uDmProcedures.pas"/>
+        <DCCReference Include="unts\uCadLancamento.pas"/>
+        <DCCReference Include="unts\uCategoria.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
