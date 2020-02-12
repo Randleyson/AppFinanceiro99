@@ -32,7 +32,7 @@ var
 
 implementation
 uses
-  uFrmPrincipal,uDmProcedures,uControleDeTela,uDatamodule;
+  uFrmPrincipal,_uDmProcedures,uControleDeTela,uDatamodule;
 
 
 

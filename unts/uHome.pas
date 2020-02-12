@@ -20,12 +20,12 @@ implementation
 
 { THome }
 uses
-  uFrmPrincipal,uDatamodule,uDmProcedures;
+  uFrmPrincipal,uDatamodule,_uDmProcedures;
 
 procedure RefreshUltimosLancmento;
 begin
   frmPrincipal.lstUltimoLanc.Items.Clear;
-  uDmProcedures.DadoUltimoLancamento;
+  _uDmProcedures.DadoUltimoLancamento;
 end;
 
 
@@ -67,7 +67,7 @@ end;
 procedure InicializaTabHome;
 begin
   frmPrincipal.MultiView.Enabled         := True;
-  frmPrincipal.lblHomeNomeUsuario.Text   := uDmProcedures.UsuarioCadastrado;
+  frmPrincipal.lblHomeNomeUsuario.Text   := dm.UsuarioCadastrado;
   frmPrincipal.lblDataAtualtabiHome.Text := frmPrincipal.NomeMes(MonthOf(now))+'/'+
                                              IntToStr(YearOf(now));
   RefreshLblMeuSaldo;
@@ -79,7 +79,7 @@ procedure RefreshLblMeuSaldo;
  var
     Saldo: Double;
 begin
-    Saldo := uDmProcedures.SaldoDeLancamento('S','C')- uDmProcedures.SaldoDeLancamento('S','D');
+    Saldo := _uDmProcedures.SaldoDeLancamento('S','C')- _uDmProcedures.SaldoDeLancamento('S','D');
 
     frmPrincipal.lblSaldoAtual.Text := frmPrincipal.FormateReal( FloatToStr((Saldo)));
 
@@ -94,9 +94,9 @@ procedure RefreshValorLinhaDoTempo;
 var
     SaldoInicial,ContasAreceber,ContasApagar: Double;
   begin
-     SaldoInicial   := uDmProcedures.SaldoDeLancamento('S','C')- uDmProcedures.SaldoDeLancamento('S','D');
-     ContasAreceber := uDmProcedures.SaldoDeLancamento('N','C');
-     ContasApagar   := uDmProcedures.SaldoDeLancamento('N','D');
+     SaldoInicial   := _uDmProcedures.SaldoDeLancamento('S','C')- _uDmProcedures.SaldoDeLancamento('S','D');
+     ContasAreceber := _uDmProcedures.SaldoDeLancamento('N','C');
+     ContasApagar   := _uDmProcedures.SaldoDeLancamento('N','D');
 
     frmPrincipal.lblSaldoAtualLinhaTempo.text    := frmPrincipal.FormateReal(FloatToStr(SaldoInicial));
     frmPrincipal.lblAreceberLinhaTempo.Text      := frmPrincipal.FormateReal(FloatToStr(ContasAreceber));

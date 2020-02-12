@@ -42,7 +42,7 @@ begin
       if i = 1 then
         vListDeTela[i] := frmPrincipal.tabPrinc_Home
       else
-        vListDeTela[i] := frmPrincipal.tabcPrinc.Tabs[NomeTela.Index];
+        vListDeTela[i] := frmPrincipal.TabC_Princ.Tabs[NomeTela.Index];
       result           := NomeTela;
       exit
     end

@@ -369,9 +369,11 @@
         <DCCReference Include="unts\uHome.pas"/>
         <DCCReference Include="unts\uControleDeTela.pas"/>
         <DCCReference Include="unts\uLogin.pas"/>
-        <DCCReference Include="unts\uDmProcedures.pas"/>
+        <DCCReference Include="unts\_uDmProcedures.pas"/>
         <DCCReference Include="unts\uCadLancamento.pas"/>
         <DCCReference Include="unts\uCategoria.pas"/>
+        <DCCReference Include="unts\uPerfil.pas"/>
+        <DCCReference Include="unts\uLancamentos.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -684,6 +686,12 @@
                 </DeployFile>
                 <DeployFile LocalName="Android\Release\styles.xml" Configuration="Release" Class="AndroidSplashStyles">
                     <Platform Name="Android">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Win32\Release\Financeiro99.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>Financeiro99.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

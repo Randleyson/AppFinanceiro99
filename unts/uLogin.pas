@@ -5,71 +5,42 @@ uses
  System.SysUtils;
 
   procedure InicilizaLogin;
-  procedure IniciarCadastroUsuario;
-
-
-
-
   function ValidaSenhaUsuario(Senha : string): Boolean;
 
 implementation
 { TLogin }
 uses
-  uFrmPrincipal, uDatamodule,uDmProcedures;
+  uFrmPrincipal, uDatamodule,_uDmProcedures;
 
 procedure InicilizaLogin;
 begin
   frmPrincipal.MultiView.Enabled := False;
 
-
-  if uDmProcedures.UsuarioCadastrado = '' then
+  if dm.UsuarioCadastrado = '' then
   begin
+    frmPrincipal.MsgInformativaToolb('Nao a usuario cadastrado');
+
     frmPrincipal.EdtCadLoginNone.Text        := '';
     frmPrincipal.edtCadLoginSenha.Text       := '';
     frmPrincipal.edtCadLoginConfiSenha.Text  := '';
 
     frmPrincipal.EdtCadLoginNone.SetFocus;
-
-    frmPrincipal.actLogin_CadUsuario.ExecuteTarget(nil);
+    frmPrincipal.TabcLogin.ActiveTab := frmPrincipal.tabLogin_CadUsuario;
   end
   else
   begin
-    frmPrincipal.TabcLogin.ActiveTab   := frmPrincipal.tabLogin_Logar;
-    frmPrincipal.lblUsuarioLogin.Text  := uDmProcedures.UsuarioCadastrado;
+    frmPrincipal.lblUsuarioLogin.Text  := dm.UsuarioCadastrado;
     frmPrincipal.EdtLoginSenha.Text    := '';
+
     frmPrincipal.EdtLoginSenha.SetFocus;
-
+    frmPrincipal.TabcLogin.ActiveTab   := frmPrincipal.tabLogin_Logar;
   end;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 end;
 
-
-procedure IniciarCadastroUsuario;
-begin
-
-end;
 
 function ValidaSenhaUsuario(Senha : string): Boolean;
 begin
-  if UpperCase(Senha) = uDmProcedures.SenhaUsuario then
+  if UpperCase(Senha) = Dm.SenhaUsuario then
     result := true
   else
     result := false;

@@ -166,6 +166,15 @@ type
   public
     { Public declarations }
 
+  function ExistUsuarioLogado: Boolean;
+
+  function UsuarioCadastrado: string;
+  function SenhaUsuario: string;
+  procedure GravarUsuarioDBCadUsuario;
+
+  procedure EditarUsuarioPerfilDB(Nome: string);
+  procedure EditarSenhaPerfilDB(Senha: string);
+
   procedure ListarDadosCategoriaCadLanc;
   procedure GravarLancamentoDBCadLanc;
   procedure ListarDadosCategoria;
@@ -173,11 +182,9 @@ type
   procedure DeleterCategoriaDB;
 
 
-  var
 
 end;
 implementation
-
 
 {%CLASSGROUP 'FMX.Controls.TControl'}
 
@@ -222,6 +229,65 @@ begin
     end;
 end;
 
+function TDm.SenhaUsuario: string;
+begin
+  dm.FDQUsuario.Close;
+  dm.FDQUsuario.Open;
+
+  result := dm.FDQUsuario.FieldByName('senha').AsString;
+  dm.FDQUsuario.Close;
+end;
+
+procedure TDm.EditarSenhaPerfilDB(Senha: string);
+begin
+  with FDQUsuario do
+  begin
+    Close;
+    Open();
+    Edit;
+    FieldByName('SENHA').Value := UpperCase(Senha);
+    post;
+    close;
+  end;
+end;
+
+procedure TDm.EditarUsuarioPerfilDB(Nome: string);
+begin
+  with FDQUsuario do
+  begin
+    Close;
+    Open();
+    Edit;
+    FieldByName('LOGIN').Value := UpperCase(Nome);
+    post;
+    close;
+  end;
+end;
+
+function TDm.ExistUsuarioLogado: Boolean;
+begin
+  FDQUsuario.Close;
+  FDQUsuario.Open;
+
+  if FDQUsuario.FieldByName('ind_login').AsString = 'S' then
+      Result := True
+    else
+      Result := False;
+end;
+
+function TDm.UsuarioCadastrado: string;
+begin
+  FDQUsuario.Close;
+  FDQUsuario.Open();
+
+  if FDQUsuario.RecordCount = 0 then
+    Result := ''
+  else
+    Result := FDQUsuario.FieldByName('login').AsString;
+
+  dm.FDQUsuario.Close;
+end;
+
 procedure TDm.ListarDadosCategoria;
 var
   Tid,Tdescricao: string;
@@ -259,16 +325,21 @@ begin
     Close;
     Open();
 
-    First;
-    while not EOF do
+    if RecordCount > 0 then
     begin
-      Tid         := FieldByName('id_categoria').AsInteger;
-      Tdescricao  := FieldByName('descricao').AsString;
-      frmPrincipal.lstCategoriaCadLanc.Items.AddObject(Tdescricao,TObjectField(Tid));
-      Next;
-    end;
+      First;
+      while not EOF do
+      begin
+        Tid         := FieldByName('id_categoria').AsInteger;
+        Tdescricao  := FieldByName('descricao').AsString;
+        frmPrincipal.lstCategoriaCadLanc.Items.AddObject(Tdescricao,TObjectField(Tid));
+        Next;
+      end;
 
-    Close;
+      Close;
+    end
+    else
+      exit
   end;
 end;
 
@@ -346,4 +417,31 @@ with FDQLancamento_CadLanc do
     Close
   end;
 end;
+procedure TDm.GravarUsuarioDBCadUsuario;
+begin
+
+  with FDQUsuario do
+  begin
+    Close;
+    Open();
+    if RecordCount > 0 then
+    begin
+      First;
+      Delete;
+      Close;
+    end;
+
+    Open();
+    Insert;
+    FieldByName('login').AsString     := UpperCase(frmPrincipal.EdtCadLoginNone.Text);
+    FieldByName('senha').AsString     := UpperCase(frmPrincipal.edtCadLoginSenha.Text);
+    FieldByName('ind_login').AsString := 'N';
+    FieldByName('nome').AsString      := UpperCase(frmPrincipal.EdtCadLoginNone.Text);
+    FieldByName('idiona').AsString    := 'PROTUGUES';
+    FieldByName('moeda').AsString     := 'REAL';
+    Post;
+    Close;
+  end;
+end;
+
 end.

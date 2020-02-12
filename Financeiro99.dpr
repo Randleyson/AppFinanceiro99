@@ -9,9 +9,11 @@ uses
   uHome in 'unts\uHome.pas',
   uControleDeTela in 'unts\uControleDeTela.pas',
   uLogin in 'unts\uLogin.pas',
-  uDmProcedures in 'unts\uDmProcedures.pas',
+  _uDmProcedures in 'unts\_uDmProcedures.pas',
   uCadLancamento in 'unts\uCadLancamento.pas',
-  uCategoria in 'unts\uCategoria.pas';
+  uCategoria in 'unts\uCategoria.pas',
+  uPerfil in 'unts\uPerfil.pas',
+  uLancamentos in 'unts\uLancamentos.pas';
 
 {$R *.res}
 

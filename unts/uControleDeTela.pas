@@ -4,7 +4,6 @@ interface
 uses
   System.SysUtils,uDatamodule,FMX.TabControl,db;
 
-  procedure RecebTabPrincipal(tabiItem: TTabItem);
   procedure ControlTelaAvanca(tabiTela: TTabItem);
   procedure AvancaTela(tabiTela: TTabItem);
   procedure ProcessaTela(tabiTela: TTabItem);
@@ -19,12 +18,7 @@ implementation
 { TControleDeTela }
 
 uses
-  uLogin, uHome, uFrmPrincipal, uCadLancamento,uCategoria;
-
-procedure RecebTabPrincipal(tabiItem: TTabItem);
-begin
-  vTabPirncipal :=  tabiItem;
-end;
+  uLogin,uHome,uFrmPrincipal,uCadLancamento,uCategoria,uPerfil;
 
 procedure ControlTelaAvanca(tabiTela: TTabItem);
 var
@@ -38,18 +32,13 @@ begin
       begin
         if i = 1 then
           begin
-            vListDeTela[i] := vTabPirncipal;
+            vListDeTela[i] := tabiTela;
             exit
           end
         else
           begin
-            if tabiTela = frmPrincipal.tabPrinc_Home then
-              exit
-            else
-            begin
-              vListDeTela[i] := tabiTela;
-              exit
-            end;
+            vListDeTela[i] := tabiTela;
+            exit
           end;
       i := i+1;
       end
@@ -73,11 +62,15 @@ begin
       uLogin.InicilizaLogin;
       frmPrincipal.actPrinc_Login.ExecuteTarget(nil);
     end;
-
     1: //HOME
     begin
       uHome.InicializaTabHome;
       frmPrincipal.actPrinc_Home.ExecuteTarget(nil);
+    end;
+    2:  //LANCAMENTOS
+    begin
+
+      frmPrincipal.actPrinc_Lancamento.ExecuteTarget(nil);
     end;
     3: // CATEGORIAS
     begin
@@ -94,9 +87,9 @@ begin
       frmPrincipal.EdtCadCategoriaDesc.Text := vCadCategriaDesc;
       frmPrincipal.actPrinc_CadCategoria.ExecuteTarget(nil);
     end;
-
     5: //PERFIL
     begin
+      IniciaConfiguracaoPerfil;
       frmPrincipal.actPrinc_Perfil.ExecuteTarget(nil);
     end;
 
@@ -115,7 +108,6 @@ procedure ControlTelaVoltaTela;
 var
   i : integer;
 begin
-
   i := 1;
   while i <> 10 do
   begin
@@ -124,15 +116,11 @@ begin
       i := i -1;
       vListDeTela[i] := nil;
       i := i -1;
-      if i = 0 then
-        ProcessaTela(vListDeTela[1])
-      else
-        ProcessaTela(vListDeTela[i]);
-        exit
-    end
-    else
-      i:= i+ 1;
-  end;
+      ProcessaTela(vListDeTela[i]);
+      exit
+    end;
+  i:= i+ 1;
+  end
 end;
 
 
