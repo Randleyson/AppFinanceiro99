@@ -198,9 +198,9 @@ type
     Image2: TImage;
     ListBox1: TListBox;
     listBoxPaine: TListBoxItem;
-    ListBoxLancamento: TListBoxItem;
-    ListBoxCategoria: TListBoxItem;
-    ListBoxItemPerfil: TListBoxItem;
+    ListBoxItem_Lancamento: TListBoxItem;
+    ListBoxItem_Categoria: TListBoxItem;
+    ListBoxItem_Perfil: TListBoxItem;
     tabPrinc_Lancamento: TTabItem;
     tabPrinc_Categoria: TTabItem;
     tabPrinc_CadCategoria: TTabItem;
@@ -308,13 +308,9 @@ type
     imgUltimoLancDespesa: TImage;
     imgUltimoLancReceita: TImage;
     layoutMenu: TLayout;
-    Layout3: TLayout;
     Image10: TImage;
-    Layout4: TLayout;
     Image11: TImage;
-    Layout5: TLayout;
     Image12: TImage;
-    Layout2: TLayout;
     imgBtnNovoLancamento: TImage;
     Rectangle2: TRectangle;
     Rectangle4: TRectangle;
@@ -433,34 +429,15 @@ type
     Layout8: TLayout;
     Label12: TLabel;
     Label19: TLabel;
-    CheckBox1: TCheckBox;
-    CheckBox2: TCheckBox;
-    CheckBox3: TCheckBox;
-    CheckBox4: TCheckBox;
-    CheckBox5: TCheckBox;
-    CheckBox6: TCheckBox;
-    SpeedButton4: TSpeedButton;
+    chbLanc_apagar: TCheckBox;
+    chbLanc_pago: TCheckBox;
+    chbLanc_Areceber: TCheckBox;
+    chbLanc_Recebido: TCheckBox;
+    btnLanc_FiltroData: TSpeedButton;
     layoutLanc_FiltroData: TLayout;
     SpeedButton12: TSpeedButton;
     SpeedButton14: TSpeedButton;
-    Label20: TLabel;
-    Layout23: TLayout;
-    Label21: TLabel;
-    Label22: TLabel;
-    Label24: TLabel;
-    Label25: TLabel;
-    Label26: TLabel;
-    ListView1: TListView;
-    TabC_RecebPaga: TTabControl;
-    tabLanc_Pagar: TTabItem;
-    tabLanc_Receber: TTabItem;
-    Layout29: TLayout;
-    Label27: TLabel;
-    Label28: TLabel;
-    Label29: TLabel;
-    Label30: TLabel;
-    Label31: TLabel;
-    ListView2: TListView;
+    lblMesAno_Lanc: TLabel;
     Rectangle5: TRectangle;
     ShadowEffect1: TShadowEffect;
     Label32: TLabel;
@@ -488,12 +465,44 @@ type
     Button2: TButton;
     Button3: TButton;
     Button4: TButton;
-    ListBoxItem1: TListBoxItem;
-    procedure ListBoxCategoriaClick(Sender: TObject);
+    MultiViewLanc_FiltroData: TMultiView;
+    btnLanc_AtivarFiltro: TSpeedButton;
+    Layout43: TLayout;
+    Rectangle7: TRectangle;
+    lstLancamento_Lanc: TListView;
+    Layout23: TLayout;
+    lblLanc_TotalizadorPrevReceita: TLabel;
+    Label27: TLabel;
+    Layout44: TLayout;
+    Layout45: TLayout;
+    Label21: TLabel;
+    lblLanc_TotalizadorPrevDespesa: TLabel;
+    Layout46: TLayout;
+    Label24: TLabel;
+    lblLanc_TotalizadorPrevSaldo: TLabel;
+    Layout29: TLayout;
+    Layout47: TLayout;
+    Label28: TLabel;
+    lblLanc_TotalizadorReceita: TLabel;
+    Layout48: TLayout;
+    Label30: TLabel;
+    lblLanc_TotalizadorDespesa: TLabel;
+    Layout49: TLayout;
+    Label47: TLabel;
+    lblLanc_TotalizadorSaldo: TLabel;
+    Rectangle10: TRectangle;
+    ShadowEffect5: TShadowEffect;
+    Rectangle11: TRectangle;
+    Rectangle15: TRectangle;
+    Rectangle16: TRectangle;
+    Rectangle17: TRectangle;
+    Layout50: TLayout;
+    ShadowEffect6: TShadowEffect;
+    procedure ListBoxItem_CategoriaClick(Sender: TObject);
     procedure lstCategoriaItemClickEx(const Sender: TObject;
       ItemIndex: Integer; const LocalClickPos: TPointF;
       const ItemObject: TListItemDrawable);
-    procedure ListBoxItemPerfilClick(Sender: TObject);
+    procedure ListBoxItem_PerfilClick(Sender: TObject);
     procedure BtnLancamentoVoltaMesClick(Sender: TObject);
     procedure BtnLancamentoAvancaMesClick(Sender: TObject);
     procedure TimFechaInformacaoTimer(Sender: TObject);
@@ -547,13 +556,15 @@ type
     procedure btnPerfilCancUsuarioClick(Sender: TObject);
     procedure btnPerfilEditSenhaClick(Sender: TObject);
     procedure btnPerfilCancSenhaClick(Sender: TObject);
-    procedure ListBoxLancamentoClick(Sender: TObject);
+    procedure ListBoxItem_LancamentoClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure ListBoxItem1Click(Sender: TObject);
-
+    procedure btnLanc_AtivarFiltroClick(Sender: TObject);
+    procedure SpeedButton12Click(Sender: TObject);
+    procedure SpeedButton14Click(Sender: TObject);
 
   private
     { Private declarations }
@@ -566,14 +577,15 @@ type
     { Public declarations }
 
     procedure MsgInformativaToolb (AMessagem: string);
-    function NomeMes(MesNomerico: integer): string;
     function FormateReal(AValorEntrada: string): string;
     function Convert(aValor1,aValor2,ResultTrue,ResultFalse: string): string;
     function DataSqlLite(Adata: TDateTime): string;
+    function NomeMes(MesNunber: integer): string;
+
 
 end;
   var
-    frmPrincipal: TfrmPrincipal;
+    frmPrincipal : TfrmPrincipal;
     Dm : TDm;
 
 implementation
@@ -582,9 +594,9 @@ implementation
 uses
   uLogin,uControleDeTela,_uDmProcedures,uCadLancamento,uCategoria,uPerfil,uLancamentos;
 
-
 procedure TfrmPrincipal.FormShow(Sender: TObject);
 begin
+   Dm := TDm.Create(self);
   if Dm.ExistUsuarioLogado then
     uControleDeTela.AvancaTela(tabPrinc_Home)
   else
@@ -604,19 +616,19 @@ begin
   tabC_Princ.ActiveTab := tabPrinc_Teste;
 end;
 
-procedure TfrmPrincipal.ListBoxItemPerfilClick(Sender: TObject);
+procedure TfrmPrincipal.ListBoxItem_PerfilClick(Sender: TObject);
 begin
   MultiView.HideMaster;
   AvancaTela(TabPrinc_Perfil);
 end;
 
-procedure TfrmPrincipal.ListBoxLancamentoClick(Sender: TObject);
+procedure TfrmPrincipal.ListBoxItem_LancamentoClick(Sender: TObject);
 begin
-  IniciaTabLancamento;
+  MultiView.HideMaster;
   AvancaTela(tabPrinc_Lancamento);
 end;
 
-procedure TfrmPrincipal.ListBoxCategoriaClick(Sender: TObject);
+procedure TfrmPrincipal.ListBoxItem_CategoriaClick(Sender: TObject);
 begin
   MultiView.HideMaster;
   AvancaTela(tabPrinc_Categoria);
@@ -645,9 +657,12 @@ begin
   TimFechaInformacao.Enabled  := true;
 end;
 
-function TfrmPrincipal.NomeMes(MesNomerico: integer): string;
+
+
+
+function TfrmPrincipal.NomeMes(MesNunber: integer): string;
 begin
-  case MesNomerico of
+  case MesNunber of
     1:
       result := 'Janeiro';
     2:
@@ -674,7 +689,6 @@ begin
       result := 'Dezembro';
   end;
 end;
-
 
 procedure TfrmPrincipal.rectNovaDespesaClick(Sender: TObject);
 begin
@@ -751,6 +765,16 @@ begin
   edtPerfilDimessao.Text := CapiturarDimessao;
 end;
 
+procedure TfrmPrincipal.SpeedButton12Click(Sender: TObject);
+begin
+  RecuaFiltroMes_Lanc;
+end;
+
+procedure TfrmPrincipal.SpeedButton14Click(Sender: TObject);
+begin
+  AvancarFiltroMes_Lanc;
+end;
+
 procedure TfrmPrincipal.SpeedButton1Click(Sender: TObject);
 begin
   ControlTelaVoltaTela;
@@ -760,6 +784,12 @@ procedure TfrmPrincipal.SpeedButton2Click(Sender: TObject);
 begin
   EdtLoginSenha.Text := '';
   actLogin_Logar.ExecuteTarget(self);
+end;
+
+procedure TfrmPrincipal.btnLanc_AtivarFiltroClick(Sender: TObject);
+begin
+  MultiViewLanc_FiltroData.HideMaster;
+  HabilitarFiltro_Lanc;
 end;
 
 procedure TfrmPrincipal.swiCadLancPagoSwitch(Sender: TObject);
@@ -838,6 +868,7 @@ begin
     btnPerfilEditSenha.StyleLookup    := 'composetoolbutton';
   end;
 end;
+
 
 procedure TfrmPrincipal.btnPerfilCancSenhaClick(Sender: TObject);
 begin
@@ -990,24 +1021,23 @@ end;
 
 procedure TfrmPrincipal.FormCreate(Sender: TObject);
 begin
-  Dm := TDm.Create(self);
 
-  TabC_Princ.TabPosition       := TTabPosition.None;
-  TabC_Princ.ActiveTab         := tabPrinc_Login;
+  TabC_Princ.TabPosition        := TTabPosition.None;
+  TabC_Princ.ActiveTab          := tabPrinc_Login;
 
-  tabcCadLanc.TabPosition     := TTabPosition.None;
+  tabcLogin.TabPosition         := TTabPosition.None;
+  tabcLogin.ActiveTab           := tabLogin_Logar;
 
-  tabcLogin.TabPosition       := TTabPosition.None;
-  tabcLogin.ActiveTab         := tabLogin_Logar;
+  tabcCadLanc.TabPosition       := TTabPosition.None;
 
-  toolBarInformativa.Visible  := False;
+  toolBarInformativa.Visible    := False;
 
-  MultiView.Enabled           := False;
+  MultiView.Enabled             := False;
 
   imgUltimoLancDespesa.Visible  := False;
   imgUltimoLancReceita.Visible  := False;
 
-  frmPrincipal.btnToolBarNovoCategoria.Visible := False;
+  btnToolBarNovoCategoria.Visible := False;
 end;
 
 procedure TfrmPrincipal.FormKeyUp(Sender: TObject; var Key: Word;
@@ -1018,7 +1048,7 @@ var
 {$ENDIF}
 begin
 {$IFDEF ANDROID}
-  if (Key = vkHardwareBack) then
+ { if (Key = vkHardwareBack) then
   begin
     TPlatformServices.Current.SupportsPlatformService
       (IFMXVirtualKeyboardService, IInterface(Fservice));
@@ -1027,7 +1057,7 @@ begin
       in Fservice.VirtualKeyBoardState) then
     begin
     end
-    else if tabcPrinc.ActiveTab = tabPrinc_Home then
+    else if tabC_Princ = tabPrinc_Home then
     begin
     end;
     if tabcPrinc.ActiveTab = tabPrinc_CadCategoria then
@@ -1035,7 +1065,7 @@ begin
       Key := 0;
       ControlTelaVoltaTela;
     end;
-  end
+  end}
 {$ENDIF}
 end;
 
@@ -1153,7 +1183,7 @@ end;
 procedure TfrmPrincipal.btnCadCategoriaVoltarClick(Sender: TObject);
 begin
   if tabcCadLanc.ActiveTab = tabCadLanc_categoria then
-    RefreshLstCategoriaCadLanc;
+    RefresherLstCategoriaCadLanc;
 
   ControlTelaVoltaTela;
 end;

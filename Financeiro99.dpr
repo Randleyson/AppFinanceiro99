@@ -13,13 +13,14 @@ uses
   uCadLancamento in 'unts\uCadLancamento.pas',
   uCategoria in 'unts\uCategoria.pas',
   uPerfil in 'unts\uPerfil.pas',
-  uLancamentos in 'unts\uLancamentos.pas';
+  uLancamentos in 'unts\uLancamentos.pas',
+  uFrmInicia in 'unts\uFrmInicia.pas' {frmInicial};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.FormFactor.Orientations := [TFormOrientation.Portrait];
-  Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TfrmInicial, frmInicial);
   Application.Run;
 end.

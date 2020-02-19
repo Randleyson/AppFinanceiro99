@@ -39,5 +39,4 @@ procedure SalvaCategoria;
 begin
   dm.GravarCategoriaDBCadCategoria;
 end;
-
 end.

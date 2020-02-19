@@ -14,7 +14,7 @@ uses
   procedure NovoLancamento;
   procedure ControleBotaoTabDataCadLanc(pData: string);
   procedure AvancarTabsCadLancamento(Tabi: TTabItem);
-  procedure RefreshLstCategoriaCadLanc;
+  procedure RefresherLstCategoriaCadLanc;
   procedure SalvarLancamento;
 
 var
@@ -111,7 +111,7 @@ begin
   end;
 end;
 
-procedure RefreshLstCategoriaCadLanc;
+procedure RefresherLstCategoriaCadLanc;
 begin
   with frmPrincipal do
   begin
@@ -178,7 +178,7 @@ begin
     begin
       frmPrincipal.btnToolBarNovoCategoria.Visible := True;
 
-      RefreshLstCategoriaCadLanc;
+      RefresherLstCategoriaCadLanc;
       frmPrincipal.actCadLanc_Categoria.ExecuteTarget(nil);
     end;
   end;

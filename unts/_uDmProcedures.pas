@@ -87,9 +87,6 @@ begin
 end;
 }
 
-
-
-
 function SaldoDeLancamento(Quitado, CredDeb: string): Double;
 begin
   dm.FDQSaldoDeLancamento.Close;

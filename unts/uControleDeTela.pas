@@ -18,7 +18,7 @@ implementation
 { TControleDeTela }
 
 uses
-  uLogin,uHome,uFrmPrincipal,uCadLancamento,uCategoria,uPerfil;
+  uLogin,uHome,uFrmPrincipal,uCadLancamento,uLancamentos,uCategoria,uPerfil;
 
 procedure ControlTelaAvanca(tabiTela: TTabItem);
 var
@@ -69,7 +69,7 @@ begin
     end;
     2:  //LANCAMENTOS
     begin
-
+      uLancamentos.IniciaTabLancamento;
       frmPrincipal.actPrinc_Lancamento.ExecuteTarget(nil);
     end;
     3: // CATEGORIAS
@@ -96,7 +96,7 @@ begin
     7: //CAD_LANCAMENTO
     begin
       if frmPrincipal.tabcCadLanc.ActiveTab = frmPrincipal.tabCadLanc_categoria then
-        RefreshLstCategoriaCadLanc;
+        RefresherLstCategoriaCadLanc;
 
       frmPrincipal.actPrinc_CadLancamento.ExecuteTarget(nil);
     end;

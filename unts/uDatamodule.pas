@@ -138,15 +138,7 @@ type
     FDQUltimosLancDESCRICAO: TStringField;
     FDQUltimosLanctipoLancamento: TStringField;
     FDQUltimosLanccategoria: TStringField;
-    FDQLancamento: TFDQuery;
-    FDQLancamentoID_LANCAMENTO: TFDAutoIncField;
-    FDQLancamentoVALOR: TFloatField;
-    FDQLancamentoDATA: TDateTimeField;
-    FDQLancamentoDESCRICAO: TStringField;
-    FDQLancamentoID_CATEGORIA: TIntegerField;
-    FDQLancamentoTIPO_LANCAMENTO: TStringField;
-    FDQLancamentoQUITADA: TStringField;
-    FDQLancamentoNROPARCELA: TIntegerField;
+    FDQLancamento_Lanc: TFDQuery;
     FDQGeral: TFDQuery;
     FDQCategoria_CadLanc: TFDQuery;
     FDQLancamento_CadLanc: TFDQuery;
@@ -158,6 +150,21 @@ type
     FDQLancamento_CadLancTIPO_LANCAMENTO: TStringField;
     FDQLancamento_CadLancQUITADA: TStringField;
     FDQLancamento_CadLancNROPARCELA: TIntegerField;
+    FDQuery1: TFDQuery;
+    FDQTotalizadore_Lanc: TFDQuery;
+    FDQTotalizadore_Lancreceita: TFloatField;
+    FDQTotalizadore_Lancdespesa: TFloatField;
+    FDQTotalizadore_LancSALDO: TFloatField;
+    FDQTotalizadore_LancprevReceita: TFloatField;
+    FDQTotalizadore_LancprevDespesa: TFloatField;
+    FDQTotalizadore_LancprevSaldo: TFloatField;
+    FDQLancamento_LancID_LANCAMENTO: TIntegerField;
+    FDQLancamento_LancVALOR: TFloatField;
+    FDQLancamento_LancDATA: TDateTimeField;
+    FDQLancamento_LancDESCRICAO: TStringField;
+    FDQLancamento_Lancstatus: TWideStringField;
+    FDQLancamento_Lanccategoria: TStringField;
+    FDQLancamento_Lanctipo: TWideStringField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -181,7 +188,10 @@ type
   procedure GravarCategoriaDBCadCategoria;
   procedure DeleterCategoriaDB;
 
+  procedure DadosLstLancamento(pMes,pAno: integer; pPago,pNaoPago,pRecebido,pNaoRecebido: string);
+  procedure DadoTotalizadorLancDB(pMes,pAno: integer; pPago,pNaoPago,pRecebido,pNaoRecebido: string);
 
+  function MesDoisDigito(Mes: integer) : string;
 
 end;
 implementation
@@ -190,7 +200,67 @@ implementation
 
 {$R *.dfm}
 uses
-  uFrmPrincipal,uCadLancamento,uCategoria;
+  uFrmPrincipal,uCadLancamento,uCategoria,uLancamentos;
+
+procedure TDm.DadosLstLancamento(pMes,pAno: integer;pPago,pNaoPago,pRecebido,pNaoRecebido: string);
+var
+  dIdLanc, dDescricao, dCategoria, dValor, dStatus, dData: string;
+begin
+  with dm.FDQLancamento_Lanc do
+  begin
+    Close;
+    ParamByName('Ano').Value          := pAno;
+    ParamByName('Mes').Value          := MesDoisDigito(pMes);
+    ParamByName('PAGO').Value         := pPago;
+    ParamByName('NAOPAGO').Value      := pNaoPago;
+    ParamByName('RECEBIDO').Value     := pRecebido;
+    ParamByName('NAORECEBIDO').Value  := pNaoRecebido;
+    Open();
+    First;
+    while not Eof do
+    begin
+      dIdLanc    := FieldByName('ID_LANCAMENTO').asstring;
+      dDescricao := FieldByName('DESCRICAO').asstring;
+      dCategoria := FieldByName('CATEGORIA').asstring;
+      dData      := FieldByName('DATA').AsString;
+      dValor     := FieldByName('VALOR').asstring;
+      dStatus    := FieldByName('STATUS').asstring;
+
+      AddItemLstLancamento(dIdLanc,dDescricao, dCategoria, dData, dValor, dStatus);
+      Next;
+    end;
+    Close;
+  end;
+
+end;
+
+procedure TDm.DadoTotalizadorLancDB(pMes,pAno: integer;pPago,pNaoPago,pRecebido,pNaoRecebido: string);
+  var
+    tReceita,tDespesa,tSaldo,tPrevDespesa,tPrevReceita,tPrevSaldo : Double;
+begin
+  with FDQTotalizadore_Lanc do
+  begin
+    Close;
+    ParamByName('Ano').Value          := pAno;
+    ParamByName('Mes').Value          := MesDoisDigito(pMes);
+    ParamByName('PAGO').Value         := pPago;
+    ParamByName('NAOPAGO').Value      := pNaoPago;
+    ParamByName('RECEBIDO').Value     := pRecebido;
+    ParamByName('NAORECEBIDO').Value  := pNaoRecebido;
+    Open();
+
+    tReceita     := FieldByName('RECEITA').AsFloat;
+    tDespesa     := FieldByName('DESPESA').AsFloat;
+    tSaldo       := FieldByName('SALDO').AsFloat;
+    tPrevReceita := FieldByName('PREVRECEITA').AsFloat;
+    tPrevDespesa := FieldByName('PREVDESPESA').AsFloat;
+    tPrevSaldo   := FieldByName('PREVSALDO').AsFloat;
+    Close;
+
+    DadosTotalizadores_Lanc( tReceita,tDespesa,tSaldo,tPrevReceita,tPrevDespesa,tPrevSaldo);
+  end;
+
+end;
 
 procedure TDm.DataModuleCreate(Sender: TObject);
 begin
@@ -273,6 +343,14 @@ begin
       Result := True
     else
       Result := False;
+end;
+
+function TDm.MesDoisDigito(Mes: integer): string;
+begin
+  if Mes < 10 then
+    result := '0'+ IntToStr(Mes)
+  else
+    result := IntToStr(Mes);
 end;
 
 function TDm.UsuarioCadastrado: string;

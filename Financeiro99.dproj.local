@@ -8,9 +8,10 @@
     <Transaction>2019/12/21 19:04:45.000.988,D:\Programacão\Delphi\android\AppFinanceiro99\Unit1.fmx=D:\Programacão\Delphi\android\AppFinanceiro99\unts\Splash.fmx</Transaction>
     <Transaction>2019/12/21 19:19:36.000.232,D:\Programacão\Delphi\android\AppFinanceiro99\unts\uSplash.fmx=D:\Programacão\Delphi\android\AppFinanceiro99\unts\Splash.fmx</Transaction>
     <Transaction>2019/12/21 19:38:24.000.943,D:\Programacão\Delphi\android\AppFinanceiro99\unts\uFrmSplash.fmx=D:\Programacão\Delphi\android\AppFinanceiro99\Unit1.fmx</Transaction>
+    <Transaction>2020/02/18 20:16:32.635,D:\AppFinanceiro99\trunk\unts\uFrmInicia.fmx=D:\AppFinanceiro99\trunk\Unit1.fmx</Transaction>
   </Transactions>
 	<ActiveMobileDevice>
-		<NoProfile iOSSimulator="iPhone5" Android="Vr.Celular"/>
+		<NoProfile iOSSimulator="iPhone5" Android="0036911910"/>
 	</ActiveMobileDevice>
 	<BT_BuildType>Debug</BT_BuildType>
 </BorlandProject>
