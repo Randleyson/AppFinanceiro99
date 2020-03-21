@@ -1,0 +1,75 @@
+
+ {
+procedure TfrmPrincipal.BtnHomeLancDespesaClick(Sender: TObject);
+begin
+  IniciaNovoLancamento('despesa');
+end;
+
+procedure TfrmPrincipal.BtnHomeLancReceitaClick(Sender: TObject);
+begin
+  IniciaNovoLancamento('receita');
+end;}
+
+//vModulo:              TDataSetState;
+//vIdCategoriaEditar:   string;
+//vModuloCadCategoria:  TDataSetState;
+//vTipoFiltro:          string;
+//vTipoLancameto:       string;
+//Variavel Tela cadLancamento:
+//vIDcbxCategoria:          array [0 .. 255] of integer;
+//vValidaCampoCadLanc:      Boolean;
+//vEdtDescCadLanc:          string;
+//vEdtVlrCadLanc:           string;
+//vEdtDataCadLanc:          string;
+//vEdtNroParCadLanc:        string;
+//vEdtQuitaCadLanc:         string; //(S/N)
+//vEdtCategCadLanc:         string;
+//vDetal2DescLstCadLanca:   string;
+//vDetal2LstCadLancaVlr:    string;
+//vDetal2LstCadLancaDate:   string;
+//vDetal2LstCadLancaNroPar: string;
+//Detal2LstCadLancaQuita:  string;
+//vDetal2LstCadLancaCateg:  string;
+//Variavel Perfil
+//procedure IniciaNovoLancamento(DC : string);
+//procedure LimpavDetal2LstCadLanc;
+//procedure ValidaCampoCadLanc;
+//procedure SairTelaDescricaoCadLancamento;
+//procedure SairTelaValorCadLancamento;
+//procedure SairTelaDataCadLancamento;
+//procedure EnviaLancamentoParaEdicao(LstView1:TListView; indexLst: integer);
+
+{
+procedure TfrmPrincipal.IniciaNovoLancamento(DC: string);
+
+begin
+  if DC = 'despesa' then
+  begin
+    vTipoLancameto            := 'D';
+    lblTituloCadLancamento.Text := 'Lancamento de despesa';
+  end
+  else
+  begin
+    vTipoLancameto            := 'C';
+    lblTituloCadLancamento.Text := 'Lancamento de receita';
+  end;
+
+
+  vEdtDescCadLanc             := '';
+  vEdtVlrCadLanc              := '';
+  vEdtDataCadLanc             := '';
+  vEdtNroParCadLanc           := '';
+  vEdtQuitaCadLanc            := '';
+  vEdtCategCadLanc            := '';
+
+  BtnCadCategoriaExclui.Visible  := false;
+  LimpavDetal2LstCadLanc;
+
+  vModulo := dsInsert;
+end;
+
+
+
+    //procedure EfeitoBtnApagarReceber(Botao: TRectangle);
+    //procedure EfeitoBtnFiltro(Botaofiltro: TRectangle);
+}
